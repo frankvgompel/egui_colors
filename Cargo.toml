@@ -4,6 +4,7 @@ version = "0.1.0"
 authors = ["Frank van Gompel"]
 edition = "2021"
 license = "MIT"
+description = "Experimental color styling toolkit for Egui"
 repository = "https://github.com/frankvgompel/egui_colors"
 keywords = ["graphics", "egui", "styling", "colors", "gui"]
 categories = ["gui", "graphics"]
