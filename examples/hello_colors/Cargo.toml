@@ -1,0 +1,11 @@
+[package]
+name = "hello_colors"
+version = "0.1.0"
+edition = "2021"
+
+
+[dependencies]
+eframe = "0.28.1"
+egui_demo_lib = "0.28.1"
+egui_colors = { path = "../../../egui_colors" }
+

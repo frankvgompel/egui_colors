@@ -1,0 +1,16 @@
+[package]
+name = "egui_colors"
+version = "0.1.0"
+edition = "2021"
+keywords = ["graphics", "egui", "styling", "colors", "gui"]
+categories = ["gui", "graphics"]
+exclude = ["examples"]
+
+[workspace]
+members = ["examples/hello_colors"]
+
+[dependencies]
+eframe = "0.28.1"
+palette = "0.7.6"
+
+
