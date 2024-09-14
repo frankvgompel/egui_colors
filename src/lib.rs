@@ -201,11 +201,11 @@ impl Colorix {
         for (i, v) in self.theme.iter().enumerate() {
             if !processed.contains(&i) {
                 self.scales.process_color(v);
-                self.tokens.update_scheme(i, self.scales.scale[i]);
+                self.tokens.update_schema(i, self.scales.scale[i]);
                 if i < self.theme.len() {
                     for (j, w) in self.theme[i + 1..].iter().enumerate() {
                         if w == v {
-                            self.tokens.update_scheme(j + i + 1, self.scales.scale[j + i + 1]);
+                            self.tokens.update_schema(j + i + 1, self.scales.scale[j + i + 1]);
                             processed.push(j + i + 1)
                         }
                     }
@@ -235,7 +235,7 @@ impl Colorix {
 
     fn update_color(&mut self, ctx: &egui::Context, i: usize) {
         self.scales.process_color(&self.theme[i]);
-        self.tokens.update_scheme(i, self.scales.scale[i]);
+        self.tokens.update_schema(i, self.scales.scale[i]);
         self.tokens.set_text_color();
         self.tokens.set_egui_visuals(ctx);
     }
