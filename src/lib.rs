@@ -68,6 +68,7 @@ impl Default for Colorix {
 impl Colorix {
     pub fn init(ctx: &mut egui::Context, theme: [ColorPreset; 12]) -> Self {
         let mut colorix = Colorix { theme, ..Default::default() };
+        colorix.scales.dark_mode = ctx.style().visuals.dark_mode;
         colorix.get_theme_index();
         colorix.update_colors(ctx);
         colorix
