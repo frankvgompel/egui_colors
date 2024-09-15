@@ -8,7 +8,6 @@
 //! 
 //! 
 
-//#![warn(missing_docs)]
 /// Some predefined themes
 pub mod utils;
 pub mod tokens;
