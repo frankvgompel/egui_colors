@@ -1,10 +1,8 @@
 //#![allow(dead_code)]
+use crate::interface;
 use eframe::egui;
 use egui_colors::{utils, Colorix};
-use crate::interface;
 use egui_demo_lib::DemoWindows;
-
-
 
 #[derive(Default)]
 pub struct App {
@@ -38,11 +36,16 @@ pub fn init() -> Result<(), eframe::Error> {
     };
     let mut fonts = egui::FontDefinitions::default();
 
-    fonts.font_data.insert("inter_medium".to_owned(),
-    egui::FontData::from_static(include_bytes!("../data/Inter-Medium.otf"))); // .ttf and .otf supported
+    fonts.font_data.insert(
+        "inter_medium".to_owned(),
+        egui::FontData::from_static(include_bytes!("../data/Inter-Medium.otf")),
+    ); // .ttf and .otf supported
 
     // Put my font first (highest priority):
-    fonts.families.get_mut(&egui::FontFamily::Proportional).unwrap()
+    fonts
+        .families
+        .get_mut(&egui::FontFamily::Proportional)
+        .unwrap()
         .insert(0, "inter_medium".to_owned());
 
     // Put my font as last fallback for monospace:

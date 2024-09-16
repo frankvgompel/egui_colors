@@ -2,10 +2,13 @@ use crate::app::App;
 use eframe::egui;
 use egui_colors::tokens::ColorPreset;
 
-
 pub fn draw_interface(app: &mut App, ctx: &egui::Context) {
     let names = vec!["Yellow", "YellowGreen", "Muted Purple"];
-    let themes = vec![[ColorPreset::Custom([232, 210, 7]); 12], [ColorPreset::Custom([178, 194, 31]); 12], [ColorPreset::Custom([95, 78, 163]); 12]];
+    let themes = vec![
+        [ColorPreset::Custom([232, 210, 7]); 12],
+        [ColorPreset::Custom([178, 194, 31]); 12],
+        [ColorPreset::Custom([95, 78, 163]); 12],
+    ];
     let custom = Some((names, themes));
     egui::TopBottomPanel::top("t_panel").show(ctx, |ui| {
         ui.horizontal_wrapped(|ui| {

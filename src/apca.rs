@@ -14,9 +14,9 @@ const W_OFFSET: f32 = 0.027;
 const W_CLAMP: f32 = 0.1;
 
 // sRGB coefficients
-const S_RCO: f32 = 0.2126729;
-const S_GCO: f32 = 0.7151522;
-const S_BCO: f32 = 0.0721750;
+const S_RCO: f32 = 0.212_672_9;
+const S_GCO: f32 = 0.715_152_2;
+const S_BCO: f32 = 0.072_175_0;
 
 fn fsc(y: f32) -> f32 {
     if y < B_THRSH {
@@ -49,16 +49,16 @@ fn clamp_contrast(cw: f32) -> f32 {
     }
 }
 
-pub(crate) fn estimate_lc(rgb_txt: egui::Color32, rgb_bg: egui::Color32) -> f32 {
-    let r = (rgb_txt.r() as f32 / 255.0).powf(S_TRC) * S_RCO;
-    let g = (rgb_txt.g() as f32 / 255.0).powf(S_TRC) * S_GCO;
-    let b = (rgb_txt.b() as f32 / 255.0).powf(S_TRC) * S_BCO;
+pub fn estimate_lc(rgb_txt: egui::Color32, rgb_bg: egui::Color32) -> f32 {
+    let r = (f32::from(rgb_txt.r()) / 255.0).powf(S_TRC) * S_RCO;
+    let g = (f32::from(rgb_txt.g()) / 255.0).powf(S_TRC) * S_GCO;
+    let b = (f32::from(rgb_txt.b()) / 255.0).powf(S_TRC) * S_BCO;
 
     let y = r + g + b;
 
-    let r2 = (rgb_bg.r() as f32 / 255.0).powf(S_TRC) * 0.2126729;
-    let g2 = (rgb_bg.g() as f32 / 255.0).powf(S_TRC) * 0.7151522;
-    let b2 = (rgb_bg.b() as f32 / 255.0).powf(S_TRC) * 0.0721750;
+    let r2 = (f32::from(rgb_bg.r()) / 255.0).powf(S_TRC) * 0.212_672_9;
+    let g2 = (f32::from(rgb_bg.g()) / 255.0).powf(S_TRC) * 0.715_152_2;
+    let b2 = (f32::from(rgb_bg.b()) / 255.0).powf(S_TRC) * 0.072_175_0;
 
     let y2 = r2 + g2 + b2;
 
