@@ -17,4 +17,19 @@ members = ["examples/hello_colors"]
 eframe = "0.28.1"
 palette = "0.7.6"
 
+[lints.rust]
+unsafe_code = "forbid"
 
+[lints.clippy]
+nursery = { level = "deny", priority = 0 }
+pedantic = { level = "deny", priority = 1 }
+enum_glob_use = { level = "deny", priority = 2 }
+module_name_repetitions = { level = "allow", priority = 3 }
+cast_precision_loss = { level = "allow", priority = 4 }
+cast_possible_truncation = { level = "allow", priority = 5 }
+cast_sign_loss = { level = "allow", priority = 6 }
+out_of_bounds_indexing = { level = "allow", priority = 7 }
+perf = { level = "warn", priority = 8 }
+style = { level = "warn", priority = 9 }
+unwrap_used = { level = "deny", priority = 10 }
+expect_used = { level = "deny", priority = 11 }
