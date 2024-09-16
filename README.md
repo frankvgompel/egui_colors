@@ -57,7 +57,7 @@ struct App {
 impl App {
     fn new(ctx: &mut egui::Context) -> Self {
         let yellow_theme = [ColorPreset::Custom([232, 210, 7]); 12]
-        let colorix = Colorix::init(ctx, custom_theme);
+        let colorix = Colorix::init(ctx, yellow_theme);
         Self {
             colorix,
             ..Default::default()
