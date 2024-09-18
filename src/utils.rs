@@ -105,8 +105,15 @@ pub const SEVENTIES: [ColorPreset; 12] = [
     ColorPreset::Gray,
 ];
 
-pub(crate) const THEMES: [[ColorPreset; 12]; 7] =
-    [EGUI_THEME, INDIGO_JADE, GRASS_BRONZE, WARM, COOL, SEVENTIES, OFFICE_GRAY];
+pub(crate) const THEMES: [[ColorPreset; 12]; 7] = [
+    EGUI_THEME,
+    INDIGO_JADE,
+    GRASS_BRONZE,
+    WARM,
+    COOL,
+    SEVENTIES,
+    OFFICE_GRAY,
+];
 
 pub(crate) const DROPDOWN_TEXT: [&str; 23] = [
     "Gray", "EguiBlue", "Tomato", "Red", "Ruby", "Crimson", "Pink", "Plum", "Purple", "Violet",
@@ -136,5 +143,5 @@ pub(crate) const THEME_NAMES: [&str; 7] = [
     "Warm",
     "Cool",
     "Seventies",
-    "Office Gray"
+    "Office Gray",
 ];
