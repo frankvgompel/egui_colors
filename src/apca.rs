@@ -1,5 +1,3 @@
-use eframe::egui;
-
 // originals
 const S_TRC: f32 = 2.4;
 const N_TX: f32 = 0.57;

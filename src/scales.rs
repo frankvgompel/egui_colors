@@ -1,9 +1,7 @@
-use crate::{apca::estimate_lc, tokens::ColorPreset};
-use eframe::{
-    egui::{self, Color32},
-    epaint::Hsva,
-};
+use egui::{epaint::Hsva, Color32};
 use palette::{num::MulAdd, Darken, FromColor, IntoColor, Lighten, LinSrgb, Okhsl, OklabHue, Srgb};
+
+use crate::{apca::estimate_lc, tokens::ColorPreset};
 
 #[derive(Debug, Default, Clone)]
 pub struct Scales {
