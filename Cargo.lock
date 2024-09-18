@@ -1007,7 +1007,7 @@ dependencies = [
 name = "egui_colors"
 version = "0.2.0"
 dependencies = [
- "eframe",
+ "egui",
  "palette",
 ]
 

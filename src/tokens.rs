@@ -1,5 +1,5 @@
 use crate::apca::estimate_lc;
-use eframe::egui::{
+use egui::{
     self,
     style::{TextCursorStyle, WidgetVisuals},
     Color32, Rounding, Stroke,
