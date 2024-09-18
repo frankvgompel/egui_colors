@@ -15,7 +15,7 @@ Scales (both light and dark mode) are computed and based on luminosity contrast 
 Although it is perfectly possible to use egui_colors to style your egui app, it's intended use is to explore the styling landscape and see
 where Egui's and users needs lie. It is also possible to extend the basis to other GUI libraries such as `Xilem` or `MakePad` if there is interest.
 
-Some questions to be answered. Is the Radix system suitable for Egui? Are the 12 functional components enough? Too many? Does it need 2 or more colorix scales? Is the implementation of the Apca algorithm sufficient?
+Some questions to be answered. Is the Radix system suitable for Egui? Are the 12 functional components enough? Does it need 2 or more colorix scales? Is the implementation of the Apca algorithm sufficient?
 
 Several observations I made: 
 
