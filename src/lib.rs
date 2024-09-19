@@ -55,7 +55,7 @@ pub struct Colorix {
 }
 
 impl Colorix {
-    #[must_use]
+   #[allow(clippy::must_use_candidate)]
     pub fn init(ctx: &egui::Context, theme: [ColorPreset; 12]) -> Self {
         let mut colorix = Self {
             theme,
