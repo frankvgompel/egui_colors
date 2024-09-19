@@ -55,7 +55,7 @@ struct App {
 // a color theme is defined as [ColorPreset; 12]
 // a ColorPreset is an enum with several preset colors and one Custom.
 impl App {
-    fn new(ctx: &mut egui::Context) -> Self {
+    fn new(ctx: &egui::Context) -> Self {
         let yellow_theme = [ColorPreset::Custom([232, 210, 7]); 12]
         let colorix = Colorix::init(ctx, yellow_theme);
         Self {

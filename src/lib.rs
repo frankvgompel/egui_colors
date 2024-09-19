@@ -35,7 +35,7 @@ use utils::{DROPDOWN_TEXT, LABELS, THEMES, THEME_NAMES};
 /// // a color theme is defined as [ColorPreset; 12]
 /// // a ColorPreset is an enum with several preset colors and one Custom.
 /// impl App {
-///     fn new(ctx: &mut Context) -> Self {
+///     fn new(ctx: &Context) -> Self {
 ///         let yellow_theme = [ColorPreset::Custom([232, 210, 7]); 12];
 ///         let colorix = Colorix::init(ctx, yellow_theme);
 ///         Self {
