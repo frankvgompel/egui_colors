@@ -18,7 +18,7 @@ impl eframe::App for App {
 }
 
 impl App {
-    fn new(ctx: &mut egui::Context) -> Self {
+    fn new(ctx: &egui::Context) -> Self {
         let colorix = Colorix::init(ctx, utils::EGUI_THEME);
         Self {
             colorix,
@@ -60,7 +60,7 @@ pub fn init() -> Result<(), eframe::Error> {
                 style.spacing.item_spacing = egui::vec2(5.0, 8.0);
                 style.spacing.window_margin = egui::Margin::same(20.0);
             });
-            Ok(Box::new(App::new(&mut cc.egui_ctx.clone())))
+            Ok(Box::new(App::new(&cc.egui_ctx.clone())))
         }),
     )
 }

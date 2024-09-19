@@ -55,7 +55,8 @@ pub struct Colorix {
 }
 
 impl Colorix {
-    pub fn init(ctx: &mut egui::Context, theme: [ColorPreset; 12]) -> Self {
+    #[must_use]
+    pub fn init(ctx: &egui::Context, theme: [ColorPreset; 12]) -> Self {
         let mut colorix = Self {
             theme,
             ..Default::default()
