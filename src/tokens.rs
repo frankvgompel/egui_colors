@@ -4,6 +4,7 @@ use egui::{
     style::{TextCursorStyle, WidgetVisuals},
     Color32, Rounding, Stroke,
 };
+use palette::{LinSrgb, Srgb};
 
 /// The functional UI elements mapped to a scale
 #[derive(Default, Debug, Clone, Copy)]
@@ -178,31 +179,31 @@ pub enum ColorPreset {
 }
 
 impl ColorPreset {
-    pub(crate) const fn get_rgb(self) -> [u8; 3] {
+    pub(crate) fn get_srgb(self) -> LinSrgb<f32> {
         match self {
-            Self::Gray => [117, 117, 117],
-            Self::EguiBlue => [0, 109, 143],
-            Self::Tomato => [229, 77, 46],
-            Self::Red => [229, 72, 77],
-            Self::Ruby => [229, 70, 102],
-            Self::Crimson => [233, 61, 130],
-            Self::Pink => [214, 64, 159],
-            Self::Plum => [171, 74, 186],
-            Self::Purple => [142, 78, 198],
-            Self::Violet => [110, 86, 207],
-            Self::Iris => [91, 91, 214],
-            Self::Indigo => [62, 99, 214],
-            Self::Blue => [0, 144, 255],
-            Self::Cyan => [0, 162, 199],
-            Self::Teal => [18, 165, 148],
-            Self::Jade => [41, 163, 131],
-            Self::Green => [48, 164, 108],
-            Self::Grass => [70, 167, 88],
-            Self::Brown => [173, 127, 88],
-            Self::Bronze => [161, 128, 114],
-            Self::Gold => [151, 131, 101],
-            Self::Orange => [247, 107, 21],
-            Self::Custom(v) => v,
+            Self::Gray => Srgb::new(117, 117, 117).into_linear(),
+            Self::EguiBlue => Srgb::new(0, 109, 143).into_linear(),
+            Self::Tomato => Srgb::new(229, 77, 46).into_linear(),
+            Self::Red => Srgb::new(229, 72, 77).into_linear(),
+            Self::Ruby => Srgb::new(229, 70, 102).into_linear(),
+            Self::Crimson => Srgb::new(233, 61, 130).into_linear(),
+            Self::Pink => Srgb::new(214, 64, 159).into_linear(),
+            Self::Plum => Srgb::new(171, 74, 186).into_linear(),
+            Self::Purple => Srgb::new(142, 78, 198).into_linear(),
+            Self::Violet => Srgb::new(110, 86, 207).into_linear(),
+            Self::Iris => Srgb::new(91, 91, 214).into_linear(),
+            Self::Indigo => Srgb::new(62, 99, 214).into_linear(),
+            Self::Blue => Srgb::new(0, 144, 255).into_linear(),
+            Self::Cyan => Srgb::new(0, 162, 199).into_linear(),
+            Self::Teal => Srgb::new(18, 165, 148).into_linear(),
+            Self::Jade => Srgb::new(41, 163, 131).into_linear(),
+            Self::Green => Srgb::new(48, 164, 108).into_linear(),
+            Self::Grass => Srgb::new(70, 167, 88).into_linear(),
+            Self::Brown => Srgb::new(173, 127, 88).into_linear(),
+            Self::Bronze => Srgb::new(161, 128, 114).into_linear(),
+            Self::Gold => Srgb::new(151, 131, 101).into_linear(),
+            Self::Orange => Srgb::new(247, 107, 21).into_linear(),
+            Self::Custom([r, g, b]) => Srgb::new(r, g, b).into_linear(),
         }
     }
 }
