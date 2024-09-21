@@ -50,7 +50,6 @@ impl Scales {
     }
 
     fn light_scale(&mut self) {
-
         let hsl = Okhsl::from_color(self.srgb);
         let hue = hsl.hue.into_positive_degrees();
         self.okhsl[8] = hsl;
