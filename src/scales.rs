@@ -6,9 +6,9 @@ use crate::{apca::estimate_lc, tokens::ColorPreset};
 #[derive(Debug, Default, Clone)]
 pub struct Scales {
     pub custom: Hsva,
-    pub hsva: Hsva,
     pub okhsl: [Okhsl; 12],
     pub rgbs: [LinSrgb; 12],
+    pub srgb: LinSrgb,
     pub scale: [Color32; 12],
     pub dark_mode: bool,
 }
@@ -19,7 +19,7 @@ impl Scales {
     }
 
     pub fn process_color(&mut self, v: ColorPreset) {
-        self.hsva = egui::ecolor::Hsva::from_additive_srgb(v.get_rgb());
+        self.srgb = v.get_srgb();
         self.draw_scale();
     }
 
@@ -50,18 +50,17 @@ impl Scales {
     }
 
     fn light_scale(&mut self) {
-        let rgb: egui::Rgba = self.hsva.into();
-        let srgb = LinSrgb::new(rgb.r(), rgb.g(), rgb.b());
-        let hsl = Okhsl::from_color(srgb);
+
+        let hsl = Okhsl::from_color(self.srgb);
         let hue = hsl.hue.into_positive_degrees();
         self.okhsl[8] = hsl;
-        self.rgbs[8] = srgb;
+        self.rgbs[8] = self.srgb;
 
         let lighten_values = [0.965, 0.9, 0.82, 0.75, 0.63, 0.51, 0.39, 0.27];
         let clamp_v = [0.99, 0.98, 0.97, 0.95, 0.93, 0.90, 0.88, 0.85];
         let darken_values = [0.1, 0.2, 0.55];
         for (i, v) in lighten_values.iter().enumerate() {
-            self.rgbs[i] = srgb.lighten(*v);
+            self.rgbs[i] = self.srgb.lighten(*v);
         }
         for i in 0..12 {
             if (0..9).contains(&i) {
@@ -79,7 +78,7 @@ impl Scales {
                 }
             }
             if (9..12).contains(&i) {
-                self.okhsl[i] = Okhsl::from_color(srgb).darken(darken_values[i - 9]);
+                self.okhsl[i] = Okhsl::from_color(self.srgb).darken(darken_values[i - 9]);
             }
             if i != 8 {
                 // enhance saturation for all values (except orginal) and diminish for certain hues (greenish)
@@ -123,9 +122,7 @@ impl Scales {
     }
 
     fn dark_scale(&mut self) {
-        let rgb: egui::Rgba = self.hsva.into();
-        let srgb = LinSrgb::new(rgb.r(), rgb.g(), rgb.b());
-        let hsl = Okhsl::from_color(srgb);
+        let hsl = Okhsl::from_color(self.srgb);
         self.okhsl[8] = hsl;
         let hue = hsl.hue.into_positive_degrees();
 
@@ -136,7 +133,7 @@ impl Scales {
         let lighten_values = [0.095, 0.45, 0.75];
 
         for i in 0..8 {
-            self.rgbs[i] = srgb.darken(darken_values[i]);
+            self.rgbs[i] = self.srgb.darken(darken_values[i]);
             self.okhsl[i] = Okhsl::from_color(self.rgbs[i]);
             if (259.0..=323.).contains(&hue) {
                 self.okhsl[i] = self.okhsl[i].lighten((i + 1) as f32 * 0.011);
@@ -178,7 +175,8 @@ impl Scales {
             self.okhsl[11].saturation = self.okhsl[11].saturation.clamp(0.0, hsl.saturation * 0.75);
             self.okhsl[10].saturation = self.okhsl[10].saturation.clamp(0.0, hsl.saturation * 0.9);
         }
-        let lc = estimate_lc(Color32::WHITE, self.hsva.into());
+        let (r, g, b) = Srgb::from_linear(self.srgb.into_color()).into();
+        let lc = estimate_lc(Color32::WHITE, Color32::from_rgb(r, g, b));
         if lc < -95.4 {
             self.okhsl[8] = hsl.lighten(0.3);
             self.okhsl[8].saturation = hsl.saturation * 1.25;
