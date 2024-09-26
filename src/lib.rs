@@ -147,7 +147,7 @@ impl Colorix {
             combi_names = THEME_NAMES.to_vec();
             combi_themes = THEMES.to_vec();
         }
-        egui::ComboBox::from_id_source("Select Theme")
+        egui::ComboBox::from_id_salt("Select Theme")
             .selected_text(combi_names[self.theme_index])
             .show_ui(ui, |ui| {
                 for i in 0..combi_themes.len() {

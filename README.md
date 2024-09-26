@@ -19,26 +19,13 @@ Some questions to be answered. Is the Radix system suitable for Egui? Are the 12
 
 Several observations I made: 
 
-1) The default egui font seems unsuited (too thin) for the radix system. The example uses the Rerun one: 'inter_medium'.
+1) The default egui font seems not entirely suited (too thin) for the radix system. The example uses the Rerun one: 'inter_medium'.
 
 2) One scale doesn't seem sufficient for styling an entire app. For instance, I didn't touch the `error` or `warn` colors. Neither any `alpha` components (such as shadows).
 
 
 ## Usage
 
-Prerequisites
-
-```rust
-// 1) change the default eframe NativeOptions. If the `follow_system_theme` is not set to `false`, it will reset the theme to the Egui default
-
-let options = eframe::NativeOptions {
-    follow_system_theme: false,
-    default_theme: eframe::Theme::Light,
-    ..Default::default()
-};
-
-// 2) the default egui font is not suited to the APCA contrast. See example!
-```
 
 Basic setting of theme.
 
@@ -51,11 +38,13 @@ struct App {
     colorix: Colorix,
     ...
 }
+// Choose a light or dark theme.
 // initialize the Colorix with a theme
 // a color theme is defined as [ColorPreset; 12]
 // a ColorPreset is an enum with several preset colors and one Custom.
 impl App {
     fn new(ctx: &egui::Context) -> Self {
+        ctx.set_theme(egui::Theme::Dark);
         let yellow_theme = [ColorPreset::Custom([232, 210, 7]); 12]
         let colorix = Colorix::init(ctx, yellow_theme);
         Self {
@@ -87,4 +76,8 @@ app.colorix.themes_dropdown(ctx, ui, custom, false);
 app.colorix.draw_background(ctx, false);
 
 ```
+
+## Examples
 See the example `hello_colors`.
+
+Another [`example`](https://github.com/crumblingstatue/mpv-egui-musicplayer/commit/2e77b7f7c729f7fd55e652f78826e1f417ad3eaa) from a user how to set up Egui Colors.

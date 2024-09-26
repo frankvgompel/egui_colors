@@ -71,9 +71,9 @@ impl ColorTokens {
 
     pub(crate) fn set_egui_visuals(&self, ctx: &egui::Context) {
         if ctx.style().visuals.dark_mode {
-            ctx.set_visuals(egui::Visuals::dark());
+            ctx.set_visuals_of(egui::Theme::Dark, egui::Visuals::dark());
         } else {
-            ctx.set_visuals(egui::Visuals::light());
+            ctx.set_visuals_of(egui::Theme::Light, egui::Visuals::light());
         }
         let selection = egui::style::Selection {
             bg_fill: self.solid_backgrounds,
