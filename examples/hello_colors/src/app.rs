@@ -19,6 +19,7 @@ impl eframe::App for App {
 
 impl App {
     fn new(ctx: &egui::Context) -> Self {
+        ctx.set_theme(egui::Theme::Light);
         let colorix = Colorix::init(ctx, utils::EGUI_THEME);
         Self {
             colorix,
@@ -30,8 +31,6 @@ impl App {
 pub fn init() -> Result<(), eframe::Error> {
     let options = eframe::NativeOptions {
         viewport: egui::ViewportBuilder::default().with_maximized(true),
-        follow_system_theme: false,
-        default_theme: eframe::Theme::Light,
         ..Default::default()
     };
     let mut fonts = egui::FontDefinitions::default();
