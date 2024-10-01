@@ -5,7 +5,7 @@ edition = "2021"
 
 
 [dependencies]
-eframe = "0.29.0"
-egui_demo_lib = "0.29.0"
+eframe = "0.29.1"
+egui_demo_lib = "0.29.1"
 egui_colors = { path = "../../../egui_colors" }
 
