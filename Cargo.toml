@@ -1,6 +1,6 @@
 [package]
 name = "egui_colors"
-version = "0.3.0"
+version = "0.4.0"
 authors = ["Frank van Gompel"]
 edition = "2021"
 license = "MIT"
