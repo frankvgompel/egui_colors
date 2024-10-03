@@ -80,4 +80,4 @@ app.colorix.draw_background(ctx, false);
 ## Examples
 See the example `hello_colors`.
 
-Another [`example`](https://github.com/crumblingstatue/mpv-egui-musicplayer/commit/2e77b7f7c729f7fd55e652f78826e1f417ad3eaa) from a user how to set up Egui Colors.
+Another [`example`](https://github.com/crumblingstatue/mpv-egui-musicplayer/commit/2e77b7f7c729f7fd55e652f78826e1f417ad3eaa) from an experienced user how to set up Egui Colors.
