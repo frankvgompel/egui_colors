@@ -1,6 +1,6 @@
 # egui_colors
 
-Experimental toolkit to explore color styling in [`Egui`](https://github.com/emilk/egui)
+Experimental toolkit to explore color styling in [`egui`](https://github.com/emilk/egui)
 
 Based on the [`Radix`](https://www.radix-ui.com/colors/docs/palette-composition/understanding-the-scale) 
 system, which defines 12 functional UI elements, and maps them to a color scale. 
