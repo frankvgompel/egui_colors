@@ -17,7 +17,7 @@ pub mod utils;
 
 use scales::Scales;
 use tokens::{ColorPreset, ColorTokens};
-use utils::{DROPDOWN_TEXT, LABELS, THEMES, THEME_NAMES};
+use utils::{LABELS, THEMES, THEME_NAMES};
 
 /// The Colorix type is the main entry to this crate.
 ///
@@ -225,13 +225,9 @@ impl Colorix {
                     egui::ComboBox::from_label(*label)
                         .selected_text(self.theme[i].label())
                         .show_ui(ui, |ui| {
-                            for j in 0..dropdown_colors.len() {
+                            for preset in dropdown_colors {
                                 if ui
-                                    .selectable_value(
-                                        &mut self.theme[i],
-                                        dropdown_colors[j],
-                                        DROPDOWN_TEXT[j],
-                                    )
+                                    .selectable_value(&mut self.theme[i], preset, preset.label())
                                     .clicked()
                                 {
                                     self.update_color(ctx, i);

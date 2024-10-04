@@ -115,12 +115,6 @@ pub(crate) const THEMES: [[ColorPreset; 12]; 7] = [
     OFFICE_GRAY,
 ];
 
-pub(crate) const DROPDOWN_TEXT: [&str; 23] = [
-    "Gray", "EguiBlue", "Tomato", "Red", "Ruby", "Crimson", "Pink", "Plum", "Purple", "Violet",
-    "Iris", "Indigo", "Blue", "Cyan", "Teal", "Jade", "Green", "Grass", "Brown", "Bronze", "Gold",
-    "Orange", "Custom",
-];
-
 pub(crate) const LABELS: [&str; 12] = [
     "app background",
     "subtle background",
