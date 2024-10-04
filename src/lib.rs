@@ -53,6 +53,7 @@ pub struct Colorix {
     pub(crate) theme: [ColorPreset; 12],
     theme_index: usize,
     pub(crate) scales: Scales,
+    show_rgb: bool,
 }
 
 impl Colorix {
@@ -191,7 +192,7 @@ impl Colorix {
             ColorPreset::Orange,
             ColorPreset::Custom(self.scales.custom()),
         ];
-        ui.add_space(20.);
+        ui.checkbox(&mut self.show_rgb, "Show rgb labels for custom");
         ui.vertical(|ui| {
             for (i, label) in LABELS.iter().enumerate() {
                 ui.horizontal(|ui| {
@@ -238,6 +239,11 @@ impl Colorix {
                             }
                         });
                 });
+                if self.show_rgb {
+                    if let Some(ColorPreset::Custom([r, g, b])) = self.theme.get(i) {
+                        ui.label(format!("{r}, {g}, {b}"));
+                    }
+                }
             }
         });
     }
