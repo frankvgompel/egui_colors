@@ -120,7 +120,7 @@ impl Colorix {
     /// let names = vec!["YellowGreen"];
     /// let themes = vec![[ColorPreset::Custom([178, 194, 31]); 12]];
     /// let custom = Some((names, themes));
-
+    ///
     /// // if you want to display custom themes only, set `custom_only` to `true`
     /// app.colorix.themes_dropdown(ctx, ui, custom, false);
     /// ```
@@ -295,5 +295,10 @@ impl Colorix {
         mesh.add_triangle(0, 1, 2);
         mesh.add_triangle(1, 2, 3);
         painter.add(egui::Shape::Mesh(mesh));
+    }
+    /// Returns the currently set theme
+    #[must_use]
+    pub const fn theme(&self) -> &[ColorPreset; 12] {
+        &self.theme
     }
 }
