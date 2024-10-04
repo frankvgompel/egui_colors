@@ -89,10 +89,11 @@ impl Colorix {
                 .on_hover_text("Switch to light mode")
                 .clicked()
             {
-                let mut style = egui::Style::default();
-                style.visuals.dark_mode = false;
                 self.scales.dark_mode = false;
-                ctx.set_style(style);
+                ctx.set_visuals(egui::Visuals {
+                    dark_mode: false,
+                    ..Default::default()
+                });
                 self.update_colors(ctx);
             }
         } else {
@@ -105,10 +106,11 @@ impl Colorix {
                 .on_hover_text("Switch to dark mode")
                 .clicked()
             {
-                let mut style = egui::Style::default();
-                style.visuals.dark_mode = true;
                 self.scales.dark_mode = true;
-                ctx.set_style(style);
+                ctx.set_visuals(egui::Visuals {
+                    dark_mode: true,
+                    ..Default::default()
+                });
                 self.update_colors(ctx);
             }
         }
