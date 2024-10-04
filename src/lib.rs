@@ -195,27 +195,32 @@ impl Colorix {
         ui.vertical(|ui| {
             for (i, label) in LABELS.iter().enumerate() {
                 ui.horizontal(|ui| {
+                    let tokens = [
+                        self.tokens.app_background,
+                        self.tokens.subtle_background,
+                        self.tokens.ui_element_background,
+                        self.tokens.hovered_ui_element_background,
+                        self.tokens.active_ui_element_background,
+                        self.tokens.subtle_borders_and_separators,
+                        self.tokens.ui_element_border_and_focus_rings,
+                        self.tokens.hovered_ui_element_border,
+                        self.tokens.solid_backgrounds,
+                        self.tokens.hovered_solid_backgrounds,
+                        self.tokens.low_contrast_text,
+                        self.tokens.high_contrast_text,
+                    ];
+                    let color_edit_size = egui::vec2(40.0, 18.0);
                     if let Some(ColorPreset::Custom(rgb)) = self.theme.get_mut(i) {
                         let re = ui.color_edit_button_srgb(rgb);
                         if re.changed() {
                             self.update_color(ctx, i);
                         }
-                        let tokens = [
-                            self.tokens.app_background,
-                            self.tokens.subtle_background,
-                            self.tokens.ui_element_background,
-                            self.tokens.hovered_ui_element_background,
-                            self.tokens.active_ui_element_background,
-                            self.tokens.subtle_borders_and_separators,
-                            self.tokens.ui_element_border_and_focus_rings,
-                            self.tokens.hovered_ui_element_border,
-                            self.tokens.solid_backgrounds,
-                            self.tokens.hovered_solid_backgrounds,
-                            self.tokens.low_contrast_text,
-                            self.tokens.high_contrast_text,
-                        ];
-                        egui::widgets::color_picker::show_color(ui, tokens[i], re.rect.size());
+                    } else {
+                        // Allocate a color edit button's worth of space for non-custom presets,
+                        // for alignment purposes.
+                        ui.add_space(color_edit_size.x + ui.style().spacing.item_spacing.x);
                     }
+                    egui::widgets::color_picker::show_color(ui, tokens[i], color_edit_size);
                     egui::ComboBox::from_label(*label)
                         .selected_text(self.theme[i].label())
                         .show_ui(ui, |ui| {
