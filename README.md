@@ -60,11 +60,14 @@ Several utility tools are available.
 // use the provided function 'light_dark_toggle_button' for switching between light and dark mode. If you use one from egui, it will revert to the egui theme.
 app.colorix.light_dark_toggle_button(ctx, ui);
 
-// dropdown with the 12 ColorTokens and a color picker for a custom color. NOTE: the color picker is clamped to suitable ranges. If the selected color's contrast is not sufficient, it will be replaced by a more saturated version.
+// dropdown with the 12 ColorTokens and a color picker for a custom color. 
+// NOTE: the color picker is clamped to suitable ranges. 
+// If the selected color's contrast is not sufficient, it will be replaced by a more saturated version.
 app.colorix.custom_picker(ui);
 app.colorix.ui_combo_12(ctx, ui);
 
-// dropdown with themes. It is possible to add custom themes to the list with an Option<(Vec<&str>, Vec<[ColorPreset; 12]>)>
+// dropdown with themes. It is possible to add custom themes to the list 
+//with an Option<(Vec<&str>, Vec<[ColorPreset; 12]>)>
 let names = vec!["YellowGreen"];
 let themes = vec![[ColorPreset::Custom([178, 194, 31]); 12]];
 let custom = Some((names, themes));
