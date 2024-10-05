@@ -7,7 +7,8 @@ system, which defines 12 functional UI elements, and maps them to a color scale.
 
 Scales (both light and dark mode) are computed and based on luminosity contrast algorithm defined by [`APCA`](https://github.com/Myndex). Every scale uses one predefined [u8; 3] rgb color that is used as an accent color (if suitable).
 
-![example_image](media/egui_colors_demo.png)
+![example_image](media/egui_colors_v0.5.0.png)
+![example_image](media/egui_colors_light.png)
 
 
 ## General Remarks
@@ -60,10 +61,11 @@ Several utility tools are available.
 // use the provided function 'light_dark_toggle_button' for switching between light and dark mode. If you use one from egui, it will revert to the egui theme.
 app.colorix.light_dark_toggle_button(ctx, ui);
 
-// dropdown with the 12 ColorTokens and a color picker for a custom color. 
+// A color picker for a custom color. 
 // NOTE: the color picker is clamped to suitable ranges. 
 // If the selected color's contrast is not sufficient, it will be replaced by a more saturated version.
 app.colorix.custom_picker(ui);
+// A helper to select the 12 elements and functionality to copy theme to clipboard
 app.colorix.ui_combo_12(ctx, ui);
 
 // dropdown with themes. It is possible to add custom themes to the list 
