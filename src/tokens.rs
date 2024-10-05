@@ -68,6 +68,7 @@ impl ColorTokens {
             _ => {}
         }
     }
+    #[allow(dead_code)]
     pub(crate) const fn get_token(&self, i: usize) -> Color32 {
         match i {
             0 => self.app_background,
