@@ -12,11 +12,11 @@ pub fn draw_interface(app: &mut App, ctx: &egui::Context) {
     let custom = Some((names, themes));
     egui::TopBottomPanel::top("t_panel").show(ctx, |ui| {
         ui.horizontal_wrapped(|ui| {
-            app.colorix.light_dark_toggle_button(ctx, ui);
+            app.colorix.light_dark_toggle_button(ui);
             ui.separator();
             ui.toggle_value(&mut app.util_bools[0], "Background Gradient");
             ui.separator();
-            app.colorix.themes_dropdown(ctx, ui, custom, false);
+            app.colorix.themes_dropdown(ui, custom, false);
         });
     });
     egui::SidePanel::left("left panel").show(ctx, |ui| {
@@ -26,7 +26,7 @@ pub fn draw_interface(app: &mut App, ctx: &egui::Context) {
         ui.add_space(20.);
         app.colorix.custom_picker(ui);
         ui.add_space(20.);
-        app.colorix.ui_combo_12(ctx, ui);
+        app.colorix.ui_combo_12(ui);
     });
     app.demo.ui(ctx);
     egui::CentralPanel::default().show(ctx, |_ui| {

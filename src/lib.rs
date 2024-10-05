@@ -75,9 +75,9 @@ impl Colorix {
     }
     /// WARNING: don't use the `light_dark` buttons that Egui provides.
     /// That will override the theme from this crate.
-    pub fn light_dark_toggle_button(&mut self, ctx: &egui::Context, ui: &mut egui::Ui) {
+    pub fn light_dark_toggle_button(&mut self, ui: &mut egui::Ui) {
         #![allow(clippy::collapsible_else_if)]
-        if ctx.style().visuals.dark_mode {
+        if ui.ctx().style().visuals.dark_mode {
             self.scales.dark_mode = true;
             if ui
                 .add(
@@ -89,11 +89,11 @@ impl Colorix {
                 .clicked()
             {
                 self.scales.dark_mode = false;
-                ctx.set_visuals(egui::Visuals {
+                ui.ctx().set_visuals(egui::Visuals {
                     dark_mode: false,
                     ..Default::default()
                 });
-                self.update_colors(ctx);
+                self.update_colors(ui.ctx());
             }
         } else {
             if ui
@@ -106,11 +106,11 @@ impl Colorix {
                 .clicked()
             {
                 self.scales.dark_mode = true;
-                ctx.set_visuals(egui::Visuals {
+                ui.ctx().set_visuals(egui::Visuals {
                     dark_mode: true,
                     ..Default::default()
                 });
-                self.update_colors(ctx);
+                self.update_colors(ui.ctx());
             }
         }
     }
@@ -131,7 +131,6 @@ impl Colorix {
     /// ```
     pub fn themes_dropdown(
         &mut self,
-        ctx: &egui::Context,
         ui: &mut egui::Ui,
         custom_themes: Option<(Vec<&str>, Vec<[ColorPreset; 12]>)>,
         custom_only: bool,
@@ -161,13 +160,13 @@ impl Colorix {
                         .clicked()
                     {
                         self.theme_index = i;
-                        self.update_colors(ctx);
+                        self.update_colors(ui.ctx());
                     };
                 }
             });
     }
     /// A widget with 12 dropdown menus of the UI elements (`ColorTokens`) that can be set.
-    pub fn ui_combo_12(&mut self, ctx: &egui::Context, ui: &mut egui::Ui) {
+    pub fn ui_combo_12(&mut self, ui: &mut egui::Ui) {
         let dropdown_colors: [ColorPreset; 23] = [
             ColorPreset::Gray,
             ColorPreset::EguiBlue,
@@ -200,7 +199,7 @@ impl Colorix {
                     if let Some(ColorPreset::Custom(rgb)) = self.theme.get_mut(i) {
                         let re = ui.color_edit_button_srgb(rgb);
                         if re.changed() {
-                            self.update_color(ctx, i);
+                            self.update_color(ui.ctx(), i);
                         }
                     } else {
                         // Allocate a color edit button's worth of space for non-custom presets,
@@ -220,7 +219,7 @@ impl Colorix {
                                     .selectable_value(&mut self.theme[i], preset, preset.label())
                                     .clicked()
                                 {
-                                    self.update_color(ctx, i);
+                                    self.update_color(ui.ctx(), i);
                                 };
                             }
                         });
