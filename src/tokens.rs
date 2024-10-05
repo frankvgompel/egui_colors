@@ -82,7 +82,7 @@ impl ColorTokens {
             9 => self.hovered_solid_backgrounds,
             10 => self.low_contrast_text,
             11 => self.high_contrast_text,
-            _ => Color32::TRANSPARENT
+            _ => Color32::TRANSPARENT,
         }
     }
 
