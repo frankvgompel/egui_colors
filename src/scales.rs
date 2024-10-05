@@ -1,7 +1,7 @@
 use egui::{epaint::Hsva, Color32};
 use palette::{num::MulAdd, Darken, FromColor, IntoColor, Lighten, LinSrgb, Okhsl, OklabHue, Srgb};
 
-use crate::{apca::estimate_lc, tokens::ColorPreset};
+use crate::{apca::estimate_lc, tokens::ThemeColor};
 
 #[derive(Debug, Default, Clone)]
 pub struct Scales {
@@ -18,7 +18,7 @@ impl Scales {
         self.custom.to_srgb()
     }
 
-    pub fn process_color(&mut self, v: ColorPreset) {
+    pub fn process_color(&mut self, v: ThemeColor) {
         self.srgb = v.get_srgb();
         self.draw_scale();
     }

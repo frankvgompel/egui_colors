@@ -16,11 +16,11 @@ pub mod tokens;
 pub mod utils;
 
 use scales::Scales;
-use tokens::{ColorPreset, ColorTokens};
+use tokens::{ColorTokens, ThemeColor};
 use utils::{LABELS, THEMES, THEME_NAMES};
 
 /// A set of colors that are used together to set a visual feel for the ui
-pub type Theme = [ColorPreset; 12];
+pub type Theme = [ThemeColor; 12];
 
 /// The Colorix type is the main entry to this crate.
 ///
@@ -28,7 +28,7 @@ pub type Theme = [ColorPreset; 12];
 ///
 /// ```
 /// use egui::Context;
-/// use egui_colors::{Colorix, tokens::ColorPreset};
+/// use egui_colors::{Colorix, tokens::ThemeColor};
 /// //Define a colorix field in your egui App
 /// #[derive(Default)]
 /// struct App {
@@ -36,11 +36,11 @@ pub type Theme = [ColorPreset; 12];
 ///     //..Default::default()
 /// }
 /// // initialize the Colorix with a theme
-/// // a color theme is defined as [ColorPreset; 12]
-/// // a ColorPreset is an enum with several preset colors and one Custom.
+/// // a color theme is defined as [ThemeColor; 12]
+/// // a ThemeColor is an enum with several preset colors and one Custom.
 /// impl App {
 ///     fn new(ctx: &Context) -> Self {
-///         let yellow_theme = [ColorPreset::Custom([232, 210, 7]); 12];
+///         let yellow_theme = [ThemeColor::Custom([232, 210, 7]); 12];
 ///         let colorix = Colorix::init(ctx, yellow_theme);
 ///         Self {
 ///             colorix,
@@ -124,9 +124,9 @@ impl Colorix {
     /// # Examples
     ///
     /// ```ignore
-    /// use egui_colors::tokens::ColorPreset;
+    /// use egui_colors::tokens::ThemeColor;
     /// let names = vec!["YellowGreen"];
-    /// let themes = vec![[ColorPreset::Custom([178, 194, 31]); 12]];
+    /// let themes = vec![[ThemeColor::Custom([178, 194, 31]); 12]];
     /// let custom = Some((names, themes));
     ///
     /// // if you want to display custom themes only, set `custom_only` to `true`
@@ -170,36 +170,36 @@ impl Colorix {
     }
     /// A widget with 12 dropdown menus of the UI elements (`ColorTokens`) that can be set.
     pub fn ui_combo_12(&mut self, ui: &mut egui::Ui) {
-        let dropdown_colors: [ColorPreset; 23] = [
-            ColorPreset::Gray,
-            ColorPreset::EguiBlue,
-            ColorPreset::Tomato,
-            ColorPreset::Red,
-            ColorPreset::Ruby,
-            ColorPreset::Crimson,
-            ColorPreset::Pink,
-            ColorPreset::Plum,
-            ColorPreset::Purple,
-            ColorPreset::Violet,
-            ColorPreset::Iris,
-            ColorPreset::Indigo,
-            ColorPreset::Blue,
-            ColorPreset::Cyan,
-            ColorPreset::Teal,
-            ColorPreset::Jade,
-            ColorPreset::Green,
-            ColorPreset::Grass,
-            ColorPreset::Brown,
-            ColorPreset::Bronze,
-            ColorPreset::Gold,
-            ColorPreset::Orange,
-            ColorPreset::Custom(self.scales.custom()),
+        let dropdown_colors: [ThemeColor; 23] = [
+            ThemeColor::Gray,
+            ThemeColor::EguiBlue,
+            ThemeColor::Tomato,
+            ThemeColor::Red,
+            ThemeColor::Ruby,
+            ThemeColor::Crimson,
+            ThemeColor::Pink,
+            ThemeColor::Plum,
+            ThemeColor::Purple,
+            ThemeColor::Violet,
+            ThemeColor::Iris,
+            ThemeColor::Indigo,
+            ThemeColor::Blue,
+            ThemeColor::Cyan,
+            ThemeColor::Teal,
+            ThemeColor::Jade,
+            ThemeColor::Green,
+            ThemeColor::Grass,
+            ThemeColor::Brown,
+            ThemeColor::Bronze,
+            ThemeColor::Gold,
+            ThemeColor::Orange,
+            ThemeColor::Custom(self.scales.custom()),
         ];
         ui.vertical(|ui| {
             for (i, label) in LABELS.iter().enumerate() {
                 ui.horizontal(|ui| {
                     let color_edit_size = egui::vec2(40.0, 18.0);
-                    if let Some(ColorPreset::Custom(rgb)) = self.theme.get_mut(i) {
+                    if let Some(ThemeColor::Custom(rgb)) = self.theme.get_mut(i) {
                         let re = ui.color_edit_button_srgb(rgb);
                         if re.changed() {
                             self.update_color(ui.ctx(), i);
@@ -254,7 +254,7 @@ impl Colorix {
         }
     }
 
-    // pub fn process_2nd_theme(&mut self, theme: &[ColorPreset; 12]) {
+    // pub fn process_2nd_theme(&mut self, theme: &[ThemeColor; 12]) {
     //     let mut processed: Vec<usize> = vec![];
     //     for (i, v) in theme.iter().enumerate() {
     //         if !processed.contains(&i) {
