@@ -68,6 +68,23 @@ impl ColorTokens {
             _ => {}
         }
     }
+    pub(crate) const fn get_token(&self, i: usize) -> Color32 {
+        match i {
+            0 => self.app_background,
+            1 => self.subtle_background,
+            2 => self.ui_element_background,
+            3 => self.hovered_ui_element_background,
+            4 => self.active_ui_element_background,
+            5 => self.subtle_borders_and_separators,
+            6 => self.ui_element_border_and_focus_rings,
+            7 => self.hovered_ui_element_border,
+            8 => self.solid_backgrounds,
+            9 => self.hovered_solid_backgrounds,
+            10 => self.low_contrast_text,
+            11 => self.high_contrast_text,
+            _ => Color32::TRANSPARENT
+        }
+    }
 
     pub(crate) fn set_egui_visuals(&self, ctx: &egui::Context) {
         if ctx.style().visuals.dark_mode {
