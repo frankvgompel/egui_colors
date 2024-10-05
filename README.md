@@ -16,8 +16,6 @@ Scales (both light and dark mode) are computed and based on luminosity contrast 
 Although it is perfectly possible to use egui_colors to style your egui app, it's intended use is to explore the styling landscape and see
 where Egui's and users needs lie. It is also possible to extend the basis to other GUI libraries such as `Xilem` or `MakePad` if there is interest.
 
-Some questions to be answered. Is the Radix system suitable for Egui? Are the 12 functional components enough? Does it need 2 or more colorix scales? Is the implementation of the Apca algorithm sufficient?
-
 Several observations I made: 
 
 1) The default egui font seems not entirely suited (too thin) for the radix system. The example uses the Rerun one: 'inter_medium'.
@@ -82,6 +80,6 @@ app.colorix.draw_background(ctx, false);
 ```
 
 ## Examples
-See the example `hello_colors`.
+See the example [`hello_colors`](https://github.com/frankvgompel/egui_colors/tree/master/examples/hello_colors)
 
-Another [`example`](https://github.com/crumblingstatue/mpv-egui-musicplayer/commit/2e77b7f7c729f7fd55e652f78826e1f417ad3eaa) from an experienced user how to set up Egui Colors.
+Another [`example`](https://github.com/crumblingstatue/mpv-egui-musicplayer/commit/2e77b7f7c729f7fd55e652f78826e1f417ad3eaa) from an experienced user how to set up [`egui_colors`](https://github.com/frankvgompel/egui_colors)
