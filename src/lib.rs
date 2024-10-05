@@ -17,7 +17,7 @@ pub mod utils;
 
 use scales::Scales;
 use tokens::{ColorPreset, ColorTokens};
-use utils::{DROPDOWN_TEXT, LABELS, THEMES, THEME_NAMES};
+use utils::{LABELS, THEMES, THEME_NAMES};
 
 /// The Colorix type is the main entry to this crate.
 ///
@@ -88,10 +88,11 @@ impl Colorix {
                 .on_hover_text("Switch to light mode")
                 .clicked()
             {
-                let mut style = egui::Style::default();
-                style.visuals.dark_mode = false;
                 self.scales.dark_mode = false;
-                ctx.set_style(style);
+                ctx.set_visuals(egui::Visuals {
+                    dark_mode: false,
+                    ..Default::default()
+                });
                 self.update_colors(ctx);
             }
         } else {
@@ -104,10 +105,11 @@ impl Colorix {
                 .on_hover_text("Switch to dark mode")
                 .clicked()
             {
-                let mut style = egui::Style::default();
-                style.visuals.dark_mode = true;
                 self.scales.dark_mode = true;
-                ctx.set_style(style);
+                ctx.set_visuals(egui::Visuals {
+                    dark_mode: true,
+                    ..Default::default()
+                });
                 self.update_colors(ctx);
             }
         }
@@ -191,25 +193,42 @@ impl Colorix {
             ColorPreset::Orange,
             ColorPreset::Custom(self.scales.custom()),
         ];
-        ui.add_space(20.);
         ui.vertical(|ui| {
             for (i, label) in LABELS.iter().enumerate() {
-                egui::ComboBox::from_label(*label)
-                    .selected_text(format!("{:?}", self.theme[i]))
-                    .show_ui(ui, |ui| {
-                        for j in 0..dropdown_colors.len() {
-                            if ui
-                                .selectable_value(
-                                    &mut self.theme[i],
-                                    dropdown_colors[j],
-                                    DROPDOWN_TEXT[j],
-                                )
-                                .clicked()
-                            {
-                                self.update_color(ctx, i);
-                            };
+                ui.horizontal(|ui| {
+                    let color_edit_size = egui::vec2(40.0, 18.0);
+                    if let Some(ColorPreset::Custom(rgb)) = self.theme.get_mut(i) {
+                        let re = ui.color_edit_button_srgb(rgb);
+                        if re.changed() {
+                            self.update_color(ctx, i);
                         }
-                    });
+                    } else {
+                        // Allocate a color edit button's worth of space for non-custom presets,
+                        // for alignment purposes.
+                        ui.add_space(color_edit_size.x + ui.style().spacing.item_spacing.x);
+                    }
+                    egui::widgets::color_picker::show_color(
+                        ui,
+                        self.tokens.get_token(i),
+                        color_edit_size,
+                    );
+                    egui::ComboBox::from_label(*label)
+                        .selected_text(self.theme[i].label())
+                        .show_ui(ui, |ui| {
+                            for preset in dropdown_colors {
+                                if ui
+                                    .selectable_value(&mut self.theme[i], preset, preset.label())
+                                    .clicked()
+                                {
+                                    self.update_color(ctx, i);
+                                };
+                            }
+                        });
+                });
+            }
+            ui.add_space(8.0);
+            if ui.button("Copy theme to clipboard").clicked() {
+                ui.output_mut(|out| out.copied_text = format!("{:#?}", self.theme));
             }
         });
     }

@@ -232,4 +232,31 @@ impl ColorPreset {
             Self::Custom([r, g, b]) => [r, g, b],
         }
     }
+    pub(crate) const fn label(self) -> &'static str {
+        match self {
+            Self::Gray => "Gray",
+            Self::EguiBlue => "EguiBlue",
+            Self::Tomato => "Tomato",
+            Self::Red => "Red",
+            Self::Ruby => "Ruby",
+            Self::Crimson => "Crimson",
+            Self::Pink => "Pink",
+            Self::Plum => "Plum",
+            Self::Purple => "Purple",
+            Self::Violet => "Violet",
+            Self::Iris => "Iris",
+            Self::Indigo => "Indigo",
+            Self::Blue => "Blue",
+            Self::Cyan => "Cyan",
+            Self::Teal => "Teal",
+            Self::Jade => "Jade",
+            Self::Green => "Green",
+            Self::Grass => "Grass",
+            Self::Brown => "Brown",
+            Self::Bronze => "Bronze",
+            Self::Gold => "Gold",
+            Self::Orange => "Orange",
+            Self::Custom(_) => "Custom",
+        }
+    }
 }
