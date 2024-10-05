@@ -2,9 +2,10 @@
 //!
 //! Experimental toolkit to explore color styling in [`Egui`](https://github.com/emilk/egui)
 //!
-//! It is based on the [`Radix`](https://www.radix-ui.com/colors/docs/palette-composition/understanding-the-scale)  system which maps a color scale to 12 functional
+//! It is based on the [`Radix`](https://www.radix-ui.com/colors/docs/palette-composition/understanding-the-scale) system which maps a color scale to 12 functional
 //! UI elements.
-//! Scales (both light and dark mode) are computed and based on luminosity contrast algorithm defined by [`APCA`](https://github.com/Myndex). Every scale uses one predefined `[u8; 3]` rgb color that is used as an accent color (if suitable).
+//! Scales (both light and dark mode) are computed and based on luminosity contrast algorithm defined by [`APCA`](https://github.com/Myndex).
+//! Every scale uses one predefined `[u8; 3]` rgb color that is used as an accent color (if suitable).
 //!
 //!
 
@@ -72,7 +73,8 @@ impl Colorix {
             self.theme_index = i;
         };
     }
-    /// WARNING: don't use the `light_dark` buttons that Egui provides because they will override the theme from this crate.
+    /// WARNING: don't use the `light_dark` buttons that Egui provides.
+    /// That will override the theme from this crate.
     pub fn light_dark_toggle_button(&mut self, ctx: &egui::Context, ui: &mut egui::Ui) {
         #![allow(clippy::collapsible_else_if)]
         if ctx.style().visuals.dark_mode {
@@ -112,6 +114,7 @@ impl Colorix {
     }
 
     /// Choose from a list of preset themes. It is possible to add custom themes.
+    /// NOTE: custom values chosen without the custom color picker are not recommended!
     ///
     /// # Examples
     ///
@@ -263,6 +266,7 @@ impl Colorix {
     }
 
     /// NOTE: values are clamped for useability.
+    /// Creating custom themes outside these values is not recommended.
     pub fn custom_picker(&mut self, ui: &mut egui::Ui) {
         if egui::color_picker::color_edit_button_hsva(
             ui,
@@ -275,8 +279,8 @@ impl Colorix {
         };
     }
 
-    /// Set a background gradient. Choose 'true' for color from `solid_backgrounds` and 'false' for
-    /// `ui_element_background`
+    /// Set a background gradient. Choose 'true' for color from `solid_backgrounds`
+    /// and 'false' for`ui_element_background`
     pub fn draw_background(&mut self, ctx: &egui::Context, accent: bool) {
         let bg = if accent {
             self.scales.process_color(self.theme[8]);
