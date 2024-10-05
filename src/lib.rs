@@ -19,6 +19,7 @@ use scales::Scales;
 use tokens::{ColorPreset, ColorTokens};
 use utils::{LABELS, THEMES, THEME_NAMES};
 
+/// A set of colors that are used together to set a visual feel for the ui
 pub type Theme = [ColorPreset; 12];
 
 /// The Colorix type is the main entry to this crate.
