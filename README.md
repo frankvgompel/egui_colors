@@ -31,7 +31,7 @@ Several observations I made:
 Basic setting of theme.
 
 ```rust
-use egui_color::{Colorix; ColorPreset};
+use egui_color::{Colorix; ThemeColor};
 
 // Define a colorix field in your egui App
 #[derive(Default)]
@@ -41,12 +41,11 @@ struct App {
 }
 // Choose a light or dark theme.
 // initialize the Colorix with a theme
-// a color theme is defined as [ColorPreset; 12]
-// a ColorPreset is an enum with several preset colors and one Custom.
+// A `ThemeColor` is an enum with several preset colors and one Custom.
 impl App {
     fn new(ctx: &egui::Context) -> Self {
         ctx.set_theme(egui::Theme::Dark);
-        let yellow_theme = [ColorPreset::Custom([232, 210, 7]); 12]
+        let yellow_theme = [ThemeColor::Custom([232, 210, 7]); 12]
         let colorix = Colorix::init(ctx, yellow_theme);
         Self {
             colorix,
@@ -69,9 +68,9 @@ app.colorix.custom_picker(ui);
 app.colorix.ui_combo_12(ctx, ui);
 
 // dropdown with themes. It is possible to add custom themes to the list 
-//with an Option<(Vec<&str>, Vec<[ColorPreset; 12]>)>
+// with an Option<(Vec<&str>, Vec<[ThemeColor; 12]>)>
 let names = vec!["YellowGreen"];
-let themes = vec![[ColorPreset::Custom([178, 194, 31]); 12]];
+let themes = vec![[ThemeColor::Custom([178, 194, 31]); 12]];
 let custom = Some((names, themes));
 
 // if you want to display custom themes only, set bool to `true`

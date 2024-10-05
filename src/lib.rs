@@ -16,8 +16,11 @@ pub mod tokens;
 pub mod utils;
 
 use scales::Scales;
-use tokens::{ColorPreset, ColorTokens};
+use tokens::{ColorTokens, ThemeColor};
 use utils::{LABELS, THEMES, THEME_NAMES};
+
+/// A set of colors that are used together to set a visual feel for the ui
+pub type Theme = [ThemeColor; 12];
 
 /// The Colorix type is the main entry to this crate.
 ///
@@ -25,7 +28,7 @@ use utils::{LABELS, THEMES, THEME_NAMES};
 ///
 /// ```
 /// use egui::Context;
-/// use egui_colors::{Colorix, tokens::ColorPreset};
+/// use egui_colors::{Colorix, tokens::ThemeColor};
 /// //Define a colorix field in your egui App
 /// #[derive(Default)]
 /// struct App {
@@ -33,11 +36,11 @@ use utils::{LABELS, THEMES, THEME_NAMES};
 ///     //..Default::default()
 /// }
 /// // initialize the Colorix with a theme
-/// // a color theme is defined as [ColorPreset; 12]
-/// // a ColorPreset is an enum with several preset colors and one Custom.
+/// // a color theme is defined as [ThemeColor; 12]
+/// // a ThemeColor is an enum with several preset colors and one Custom.
 /// impl App {
 ///     fn new(ctx: &Context) -> Self {
-///         let yellow_theme = [ColorPreset::Custom([232, 210, 7]); 12];
+///         let yellow_theme = [ThemeColor::Custom([232, 210, 7]); 12];
 ///         let colorix = Colorix::init(ctx, yellow_theme);
 ///         Self {
 ///             colorix,
@@ -50,14 +53,14 @@ use utils::{LABELS, THEMES, THEME_NAMES};
 pub struct Colorix {
     pub tokens: ColorTokens,
     //pub tokens2: ColorTokens,
-    pub(crate) theme: [ColorPreset; 12],
+    pub(crate) theme: Theme,
     theme_index: usize,
     pub(crate) scales: Scales,
 }
 
 impl Colorix {
     #[allow(clippy::must_use_candidate)]
-    pub fn init(ctx: &egui::Context, theme: [ColorPreset; 12]) -> Self {
+    pub fn init(ctx: &egui::Context, theme: Theme) -> Self {
         let mut colorix = Self {
             theme,
             ..Default::default()
@@ -75,9 +78,9 @@ impl Colorix {
     }
     /// WARNING: don't use the `light_dark` buttons that Egui provides.
     /// That will override the theme from this crate.
-    pub fn light_dark_toggle_button(&mut self, ctx: &egui::Context, ui: &mut egui::Ui) {
+    pub fn light_dark_toggle_button(&mut self, ui: &mut egui::Ui) {
         #![allow(clippy::collapsible_else_if)]
-        if ctx.style().visuals.dark_mode {
+        if ui.ctx().style().visuals.dark_mode {
             self.scales.dark_mode = true;
             if ui
                 .add(
@@ -89,11 +92,11 @@ impl Colorix {
                 .clicked()
             {
                 self.scales.dark_mode = false;
-                ctx.set_visuals(egui::Visuals {
+                ui.ctx().set_visuals(egui::Visuals {
                     dark_mode: false,
                     ..Default::default()
                 });
-                self.update_colors(ctx);
+                self.update_colors(ui.ctx());
             }
         } else {
             if ui
@@ -106,11 +109,11 @@ impl Colorix {
                 .clicked()
             {
                 self.scales.dark_mode = true;
-                ctx.set_visuals(egui::Visuals {
+                ui.ctx().set_visuals(egui::Visuals {
                     dark_mode: true,
                     ..Default::default()
                 });
-                self.update_colors(ctx);
+                self.update_colors(ui.ctx());
             }
         }
     }
@@ -121,9 +124,9 @@ impl Colorix {
     /// # Examples
     ///
     /// ```ignore
-    /// use egui_colors::tokens::ColorPreset;
+    /// use egui_colors::tokens::ThemeColor;
     /// let names = vec!["YellowGreen"];
-    /// let themes = vec![[ColorPreset::Custom([178, 194, 31]); 12]];
+    /// let themes = vec![[ThemeColor::Custom([178, 194, 31]); 12]];
     /// let custom = Some((names, themes));
     ///
     /// // if you want to display custom themes only, set `custom_only` to `true`
@@ -131,12 +134,11 @@ impl Colorix {
     /// ```
     pub fn themes_dropdown(
         &mut self,
-        ctx: &egui::Context,
         ui: &mut egui::Ui,
-        custom_themes: Option<(Vec<&str>, Vec<[ColorPreset; 12]>)>,
+        custom_themes: Option<(Vec<&str>, Vec<Theme>)>,
         custom_only: bool,
     ) {
-        let combi_themes: Vec<[ColorPreset; 12]>;
+        let combi_themes: Vec<Theme>;
         let combi_names: Vec<&str>;
 
         if let Some(custom) = custom_themes {
@@ -161,46 +163,46 @@ impl Colorix {
                         .clicked()
                     {
                         self.theme_index = i;
-                        self.update_colors(ctx);
+                        self.update_colors(ui.ctx());
                     };
                 }
             });
     }
     /// A widget with 12 dropdown menus of the UI elements (`ColorTokens`) that can be set.
-    pub fn ui_combo_12(&mut self, ctx: &egui::Context, ui: &mut egui::Ui) {
-        let dropdown_colors: [ColorPreset; 23] = [
-            ColorPreset::Gray,
-            ColorPreset::EguiBlue,
-            ColorPreset::Tomato,
-            ColorPreset::Red,
-            ColorPreset::Ruby,
-            ColorPreset::Crimson,
-            ColorPreset::Pink,
-            ColorPreset::Plum,
-            ColorPreset::Purple,
-            ColorPreset::Violet,
-            ColorPreset::Iris,
-            ColorPreset::Indigo,
-            ColorPreset::Blue,
-            ColorPreset::Cyan,
-            ColorPreset::Teal,
-            ColorPreset::Jade,
-            ColorPreset::Green,
-            ColorPreset::Grass,
-            ColorPreset::Brown,
-            ColorPreset::Bronze,
-            ColorPreset::Gold,
-            ColorPreset::Orange,
-            ColorPreset::Custom(self.scales.custom()),
+    pub fn ui_combo_12(&mut self, ui: &mut egui::Ui) {
+        let dropdown_colors: [ThemeColor; 23] = [
+            ThemeColor::Gray,
+            ThemeColor::EguiBlue,
+            ThemeColor::Tomato,
+            ThemeColor::Red,
+            ThemeColor::Ruby,
+            ThemeColor::Crimson,
+            ThemeColor::Pink,
+            ThemeColor::Plum,
+            ThemeColor::Purple,
+            ThemeColor::Violet,
+            ThemeColor::Iris,
+            ThemeColor::Indigo,
+            ThemeColor::Blue,
+            ThemeColor::Cyan,
+            ThemeColor::Teal,
+            ThemeColor::Jade,
+            ThemeColor::Green,
+            ThemeColor::Grass,
+            ThemeColor::Brown,
+            ThemeColor::Bronze,
+            ThemeColor::Gold,
+            ThemeColor::Orange,
+            ThemeColor::Custom(self.scales.custom()),
         ];
         ui.vertical(|ui| {
             for (i, label) in LABELS.iter().enumerate() {
                 ui.horizontal(|ui| {
                     let color_edit_size = egui::vec2(40.0, 18.0);
-                    if let Some(ColorPreset::Custom(rgb)) = self.theme.get_mut(i) {
+                    if let Some(ThemeColor::Custom(rgb)) = self.theme.get_mut(i) {
                         let re = ui.color_edit_button_srgb(rgb);
                         if re.changed() {
-                            self.update_color(ctx, i);
+                            self.update_color(ui.ctx(), i);
                         }
                     } else {
                         // Allocate a color edit button's worth of space for non-custom presets,
@@ -220,7 +222,7 @@ impl Colorix {
                                     .selectable_value(&mut self.theme[i], preset, preset.label())
                                     .clicked()
                                 {
-                                    self.update_color(ctx, i);
+                                    self.update_color(ui.ctx(), i);
                                 };
                             }
                         });
@@ -252,7 +254,7 @@ impl Colorix {
         }
     }
 
-    // pub fn process_2nd_theme(&mut self, theme: &[ColorPreset; 12]) {
+    // pub fn process_2nd_theme(&mut self, theme: &[ThemeColor; 12]) {
     //     let mut processed: Vec<usize> = vec![];
     //     for (i, v) in theme.iter().enumerate() {
     //         if !processed.contains(&i) {
@@ -321,7 +323,7 @@ impl Colorix {
     }
     /// Returns the currently set theme
     #[must_use]
-    pub const fn theme(&self) -> &[ColorPreset; 12] {
+    pub const fn theme(&self) -> &Theme {
         &self.theme
     }
 }

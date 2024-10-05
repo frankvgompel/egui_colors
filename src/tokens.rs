@@ -159,16 +159,16 @@ impl ColorTokens {
     }
 }
 
-/// A theme is basically a `[ColorPreset; 12]`.
+/// A theme is basically a `[ThemeColor; 12]`.
 ///
 /// # Examples
 /// ```
-/// use egui_colors::tokens::ColorPreset;
-/// let mut my_theme = [ColorPreset::Indigo; 12];
-/// my_theme[11] = ColorPreset::Custom([23, 45, 77]);
+/// use egui_colors::tokens::ThemeColor;
+/// let mut my_theme = [ThemeColor::Indigo; 12];
+/// my_theme[11] = ThemeColor::Custom([23, 45, 77]);
 /// ```
 #[derive(Default, Copy, Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
-pub enum ColorPreset {
+pub enum ThemeColor {
     #[default]
     Gray,
     EguiBlue,
@@ -195,7 +195,7 @@ pub enum ColorPreset {
     Custom([u8; 3]),
 }
 
-impl ColorPreset {
+impl ThemeColor {
     pub(crate) fn get_srgb(self) -> LinSrgb<f32> {
         let [r, g, b] = self.rgb();
         Srgb::new(r, g, b).into_linear()
