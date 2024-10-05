@@ -226,7 +226,7 @@ impl Colorix {
                         });
                 });
             }
-            ui.add_space(8.0);
+            ui.add_space(10.);
             if ui.button("Copy theme to clipboard").clicked() {
                 ui.output_mut(|out| out.copied_text = format!("{:#?}", self.theme));
             }
