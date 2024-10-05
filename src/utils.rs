@@ -1,6 +1,6 @@
-use crate::tokens::ColorPreset;
+use crate::{tokens::ColorPreset, Theme};
 
-pub const EGUI_THEME: [ColorPreset; 12] = [
+pub const EGUI_THEME: Theme = [
     ColorPreset::Gray,
     ColorPreset::Gray,
     ColorPreset::Gray,
@@ -15,7 +15,7 @@ pub const EGUI_THEME: [ColorPreset; 12] = [
     ColorPreset::Gray,
 ];
 
-pub const OFFICE_GRAY: [ColorPreset; 12] = [
+pub const OFFICE_GRAY: Theme = [
     ColorPreset::Custom([140, 149, 138]),
     ColorPreset::Custom([140, 149, 138]),
     ColorPreset::Custom([140, 149, 138]),
@@ -30,7 +30,7 @@ pub const OFFICE_GRAY: [ColorPreset; 12] = [
     ColorPreset::Custom([185, 178, 168]),
 ];
 
-pub const INDIGO_JADE: [ColorPreset; 12] = [
+pub const INDIGO_JADE: Theme = [
     ColorPreset::Gray,
     ColorPreset::Gray,
     ColorPreset::Indigo,
@@ -45,7 +45,7 @@ pub const INDIGO_JADE: [ColorPreset; 12] = [
     ColorPreset::Gray,
 ];
 
-pub const GRASS_BRONZE: [ColorPreset; 12] = [
+pub const GRASS_BRONZE: Theme = [
     ColorPreset::Gray,
     ColorPreset::Gray,
     ColorPreset::Grass,
@@ -60,7 +60,7 @@ pub const GRASS_BRONZE: [ColorPreset; 12] = [
     ColorPreset::Gray,
 ];
 
-pub const WARM: [ColorPreset; 12] = [
+pub const WARM: Theme = [
     ColorPreset::Gray,
     ColorPreset::Gray,
     ColorPreset::Orange,
@@ -75,7 +75,7 @@ pub const WARM: [ColorPreset; 12] = [
     ColorPreset::Teal,
 ];
 
-pub const COOL: [ColorPreset; 12] = [
+pub const COOL: Theme = [
     ColorPreset::Gray,
     ColorPreset::Indigo,
     ColorPreset::Indigo,
@@ -90,7 +90,7 @@ pub const COOL: [ColorPreset; 12] = [
     ColorPreset::Gray,
 ];
 
-pub const SEVENTIES: [ColorPreset; 12] = [
+pub const SEVENTIES: Theme = [
     ColorPreset::Custom([95, 78, 163]),
     ColorPreset::Pink,
     ColorPreset::Pink,
@@ -105,7 +105,7 @@ pub const SEVENTIES: [ColorPreset; 12] = [
     ColorPreset::Gray,
 ];
 
-pub(crate) const THEMES: [[ColorPreset; 12]; 7] = [
+pub(crate) const THEMES: [Theme; 7] = [
     EGUI_THEME,
     INDIGO_JADE,
     GRASS_BRONZE,

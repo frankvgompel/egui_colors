@@ -19,6 +19,8 @@ use scales::Scales;
 use tokens::{ColorPreset, ColorTokens};
 use utils::{LABELS, THEMES, THEME_NAMES};
 
+pub type Theme = [ColorPreset; 12];
+
 /// The Colorix type is the main entry to this crate.
 ///
 /// # Examples
@@ -50,14 +52,14 @@ use utils::{LABELS, THEMES, THEME_NAMES};
 pub struct Colorix {
     pub tokens: ColorTokens,
     //pub tokens2: ColorTokens,
-    pub(crate) theme: [ColorPreset; 12],
+    pub(crate) theme: Theme,
     theme_index: usize,
     pub(crate) scales: Scales,
 }
 
 impl Colorix {
     #[allow(clippy::must_use_candidate)]
-    pub fn init(ctx: &egui::Context, theme: [ColorPreset; 12]) -> Self {
+    pub fn init(ctx: &egui::Context, theme: Theme) -> Self {
         let mut colorix = Self {
             theme,
             ..Default::default()
@@ -132,10 +134,10 @@ impl Colorix {
     pub fn themes_dropdown(
         &mut self,
         ui: &mut egui::Ui,
-        custom_themes: Option<(Vec<&str>, Vec<[ColorPreset; 12]>)>,
+        custom_themes: Option<(Vec<&str>, Vec<Theme>)>,
         custom_only: bool,
     ) {
-        let combi_themes: Vec<[ColorPreset; 12]>;
+        let combi_themes: Vec<Theme>;
         let combi_names: Vec<&str>;
 
         if let Some(custom) = custom_themes {
@@ -320,7 +322,7 @@ impl Colorix {
     }
     /// Returns the currently set theme
     #[must_use]
-    pub const fn theme(&self) -> &[ColorPreset; 12] {
+    pub const fn theme(&self) -> &Theme {
         &self.theme
     }
 }
