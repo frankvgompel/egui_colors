@@ -21,7 +21,7 @@ pub struct ColorTokens {
     pub hovered_solid_backgrounds: Color32,
     pub low_contrast_text: Color32,
     pub high_contrast_text: Color32,
-    pub(crate) inverse_color: bool,
+    pub inverse_color: bool,
     pub on_accent: Color32,
 }
 
@@ -37,12 +37,6 @@ impl ColorTokens {
         } else {
             self.on_accent = egui::Color32::WHITE;
         }
-    }
-
-    /// notifies when lc > -46.
-    #[must_use]
-    pub const fn inverse_color(&self) -> bool {
-        self.inverse_color
     }
 
     pub(crate) fn update_schema(&mut self, i: usize, fill: Color32) {
