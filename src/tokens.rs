@@ -22,27 +22,21 @@ pub struct ColorTokens {
     pub low_contrast_text: Color32,
     pub high_contrast_text: Color32,
     pub(crate) inverse_color: bool,
-    pub(crate) text_color: Color32,
+    pub on_accent: Color32,
 }
 
 impl ColorTokens {
-    pub(crate) fn set_text_color(&mut self) {
+    pub(crate) fn color_on_accent(&mut self) {
         let lc = estimate_lc(egui::Color32::WHITE, self.solid_backgrounds);
         if lc > -46. {
             self.inverse_color = true;
             let mut hsva: egui::ecolor::Hsva = self.solid_backgrounds.into();
             hsva.s = 0.7;
             hsva.v = 0.01;
-            self.text_color = hsva.into();
+            self.on_accent = hsva.into();
         } else {
-            self.text_color = egui::Color32::WHITE;
+            self.on_accent = egui::Color32::WHITE;
         }
-    }
-
-    /// the color for the text on accented color (solid backgrounds)
-    #[must_use]
-    pub const fn text_color(&self) -> Color32 {
-        self.text_color
     }
 
     /// notifies when lc > -46.
@@ -94,7 +88,7 @@ impl ColorTokens {
         }
         let selection = egui::style::Selection {
             bg_fill: self.solid_backgrounds,
-            stroke: Stroke::new(1.0, self.text_color),
+            stroke: Stroke::new(1.0, self.on_accent),
         };
         let text_cursor = TextCursorStyle {
             stroke: Stroke::new(2.0, self.low_contrast_text),

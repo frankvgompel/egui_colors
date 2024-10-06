@@ -276,13 +276,13 @@ impl Colorix {
     fn update_color(&mut self, ctx: &egui::Context, i: usize) {
         self.scales.process_color(self.theme[i]);
         self.tokens.update_schema(i, self.scales.scale[i]);
-        self.tokens.set_text_color();
+        self.tokens.color_on_accent();
         self.tokens.set_egui_visuals(ctx);
     }
 
     fn update_colors(&mut self, ctx: &egui::Context) {
         self.process_theme();
-        self.tokens.set_text_color();
+        self.tokens.color_on_accent();
         self.tokens.set_egui_visuals(ctx);
     }
 
