@@ -81,7 +81,9 @@ impl ColorTokens {
             ctx.set_visuals_of(egui::Theme::Light, egui::Visuals::light());
         }
 
-        ctx.style_mut(|style| { self.set_egui_style(style); });
+        ctx.style_mut(|style| {
+            self.set_egui_style(style);
+        });
     }
     pub(crate) fn set_local_egui_visuals(&self, ui: &mut Ui) {
         let style = ui.style_mut();
