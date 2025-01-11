@@ -5,8 +5,14 @@ use egui::Ui;
 /// globally, locally or not at all.
 #[derive(Debug, Copy, Clone)]
 pub enum ApplyTo {
+    /// Theme changes are applied to the global egui context.
     Global,
+    /// Theme changes are applied to the local widget tree only.
     Local,
+    /// No theme changes are applied.
+    ///
+    /// This is useful when theme is applied manually in a different part of
+    /// the interface.
     Nothing,
 }
 
