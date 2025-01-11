@@ -10,6 +10,7 @@
 //!
 
 pub(crate) mod apca;
+pub mod apply_to;
 pub(crate) mod scales;
 pub mod tokens;
 /// Some predefined themes
@@ -18,6 +19,8 @@ pub mod utils;
 use scales::Scales;
 use tokens::{ColorTokens, ThemeColor};
 use utils::{LABELS, THEMES, THEME_NAMES};
+
+pub use apply_to::ApplyTo;
 
 /// A set of colors that are used together to set a visual feel for the ui
 pub type Theme = [ThemeColor; 12];
@@ -42,6 +45,7 @@ pub type Theme = [ThemeColor; 12];
 ///     fn new(ctx: &Context) -> Self {
 ///         let yellow_theme = [ThemeColor::Custom([232, 210, 7]); 12];
 ///         let colorix = Colorix::init(ctx, yellow_theme);
+///         colorix.apply_global(ctx);
 ///         Self {
 ///             colorix,
 ///             ..Default::default()
@@ -58,16 +62,34 @@ pub struct Colorix {
 }
 
 impl Colorix {
+    /// Initialize the Colorix with the dark mode setting pulled from the Egui
+    /// context
     #[allow(clippy::must_use_candidate)]
     pub fn init(ctx: &egui::Context, theme: Theme) -> Self {
+        Self::init_with_dark_mode(theme, ctx.style().visuals.dark_mode)
+    }
+
+    /// Initialize the Colorix with a dark mode setting
+    #[allow(clippy::must_use_candidate)]
+    pub fn init_with_dark_mode(theme: Theme, is_dark_mode: bool) -> Self {
         let mut colorix = Self {
             theme,
             ..Default::default()
         };
-        colorix.scales.dark_mode = ctx.style().visuals.dark_mode;
+        colorix.scales.dark_mode = is_dark_mode;
         colorix.get_theme_index();
-        colorix.update_colors(ctx);
+        colorix.update_colors();
         colorix
+    }
+
+    /// Applies the theme to the global Egui context
+    pub fn apply_global(&self, ctx: &egui::Context) {
+        self.tokens.set_global_egui_visuals(ctx);
+    }
+
+    /// Applies the theme to the local widget tree only
+    pub fn apply_local(&self, ui: &mut egui::Ui) {
+        self.tokens.set_local_egui_visuals(ui);
     }
 
     fn get_theme_index(&mut self) {
@@ -76,26 +98,29 @@ impl Colorix {
         };
     }
 
-    pub fn set_dark(&mut self, ui: &mut egui::Ui) {
+    pub fn set_dark(&mut self, ui: &mut egui::Ui, apply_to: ApplyTo) {
         self.scales.dark_mode = true;
         ui.ctx().set_visuals(egui::Visuals {
             dark_mode: true,
             ..Default::default()
         });
-        self.update_colors(ui.ctx());
+        self.update_colors();
+        apply_to.apply(ui, &self.tokens);
     }
-    pub fn set_light(&mut self, ui: &mut egui::Ui) {
+
+    pub fn set_light(&mut self, ui: &mut egui::Ui, apply_to: ApplyTo) {
         self.scales.dark_mode = false;
         ui.ctx().set_visuals(egui::Visuals {
             dark_mode: false,
             ..Default::default()
         });
-        self.update_colors(ui.ctx());
+        self.update_colors();
+        apply_to.apply(ui, &self.tokens);
     }
 
     /// WARNING: don't use the `light_dark` buttons that Egui provides.
     /// That will override the theme from this crate.
-    pub fn light_dark_toggle_button(&mut self, ui: &mut egui::Ui) {
+    pub fn light_dark_toggle_button(&mut self, ui: &mut egui::Ui, apply_to: ApplyTo) {
         #![allow(clippy::collapsible_else_if)]
         if ui.ctx().style().visuals.dark_mode {
             self.scales.dark_mode = true;
@@ -113,7 +138,8 @@ impl Colorix {
                     dark_mode: false,
                     ..Default::default()
                 });
-                self.update_colors(ui.ctx());
+                self.update_colors();
+                apply_to.apply(ui, &self.tokens);
             }
         } else {
             if ui
@@ -130,7 +156,8 @@ impl Colorix {
                     dark_mode: true,
                     ..Default::default()
                 });
-                self.update_colors(ui.ctx());
+                self.update_colors();
+                apply_to.apply(ui, &self.tokens);
             }
         }
     }
@@ -154,6 +181,7 @@ impl Colorix {
         ui: &mut egui::Ui,
         custom_themes: Option<(Vec<&str>, Vec<Theme>)>,
         custom_only: bool,
+        apply_to: ApplyTo,
     ) {
         let combi_themes: Vec<Theme>;
         let combi_names: Vec<&str>;
@@ -180,14 +208,15 @@ impl Colorix {
                         .clicked()
                     {
                         self.theme_index = i;
-                        self.update_colors(ui.ctx());
+                        self.update_colors();
+                        apply_to.apply(ui, &self.tokens);
                     };
                 }
             });
     }
     /// A widget with 12 dropdown menus of the UI elements (`ColorTokens`) that can be set.
     /// Add copy: true to display a button to copy the theme in debug format
-    pub fn ui_combo_12(&mut self, ui: &mut egui::Ui, copy: bool) {
+    pub fn ui_combo_12(&mut self, ui: &mut egui::Ui, copy: bool, apply_to: ApplyTo) {
         let dropdown_colors: [ThemeColor; 23] = [
             ThemeColor::Gray,
             ThemeColor::EguiBlue,
@@ -220,7 +249,8 @@ impl Colorix {
                     if let Some(ThemeColor::Custom(rgb)) = self.theme.get_mut(i) {
                         let re = ui.color_edit_button_srgb(rgb);
                         if re.changed() {
-                            self.update_color(ui.ctx(), i);
+                            self.update_color(i);
+                            apply_to.apply(ui, &self.tokens);
                         }
                     } else {
                         // Allocate a color edit button's worth of space for non-custom presets,
@@ -240,7 +270,8 @@ impl Colorix {
                                     .selectable_value(&mut self.theme[i], preset, preset.label())
                                     .clicked()
                                 {
-                                    self.update_color(ui.ctx(), i);
+                                    self.update_color(i);
+                                    apply_to.apply(ui, &self.tokens);
                                 };
                             }
                         });
@@ -274,17 +305,15 @@ impl Colorix {
         }
     }
 
-    fn update_color(&mut self, ctx: &egui::Context, i: usize) {
+    fn update_color(&mut self, i: usize) {
         self.scales.process_color(self.theme[i]);
         self.tokens.update_schema(i, self.scales.scale[i]);
         self.tokens.color_on_accent();
-        self.tokens.set_egui_visuals(ctx);
     }
 
-    fn update_colors(&mut self, ctx: &egui::Context) {
+    fn update_colors(&mut self) {
         self.process_theme();
         self.tokens.color_on_accent();
-        self.tokens.set_egui_visuals(ctx);
     }
 
     /// NOTE: values are clamped for useability.

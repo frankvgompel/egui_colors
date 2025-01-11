@@ -2,7 +2,7 @@ use crate::apca::estimate_lc;
 use egui::{
     self,
     style::{TextCursorStyle, WidgetVisuals},
-    Color32, Rounding, Stroke,
+    Color32, Rounding, Stroke, Style, Ui,
 };
 use palette::{LinSrgb, Srgb};
 
@@ -74,12 +74,28 @@ impl ColorTokens {
         }
     }
 
-    pub(crate) fn set_egui_visuals(&self, ctx: &egui::Context) {
+    pub(crate) fn set_global_egui_visuals(&self, ctx: &egui::Context) {
         if ctx.style().visuals.dark_mode {
             ctx.set_visuals_of(egui::Theme::Dark, egui::Visuals::dark());
         } else {
             ctx.set_visuals_of(egui::Theme::Light, egui::Visuals::light());
         }
+
+        ctx.style_mut(|style| { self.set_egui_style(style); });
+    }
+    pub(crate) fn set_local_egui_visuals(&self, ui: &mut Ui) {
+        let style = ui.style_mut();
+
+        if style.visuals.dark_mode {
+            style.visuals = egui::Visuals::dark();
+        } else {
+            style.visuals = egui::Visuals::light();
+        }
+
+        self.set_egui_style(style);
+    }
+
+    pub(crate) fn set_egui_style(&self, style: &mut Style) {
         let selection = egui::style::Selection {
             bg_fill: self.solid_backgrounds,
             stroke: Stroke::new(1.0, self.on_accent),
@@ -131,19 +147,17 @@ impl ColorTokens {
             },
         };
 
-        ctx.style_mut(|style| {
-            style.visuals.selection = selection;
-            style.visuals.widgets = widgets;
-            style.visuals.text_cursor = text_cursor;
-            style.visuals.extreme_bg_color = self.app_background; // e.g. TextEdit background
-            style.visuals.faint_bg_color = self.app_background; // striped grid is originally from_additive_luminance(5)
-            style.visuals.code_bg_color = self.ui_element_background;
-            style.visuals.window_fill = self.subtle_background;
-            style.visuals.window_stroke = Stroke::new(1.0, self.subtle_borders_and_separators);
-            style.visuals.panel_fill = self.subtle_background;
-            style.visuals.hyperlink_color = self.hovered_solid_backgrounds;
-            //style.visuals.override_text_color = Some(self.text_color());
-        });
+        style.visuals.selection = selection;
+        style.visuals.widgets = widgets;
+        style.visuals.text_cursor = text_cursor;
+        style.visuals.extreme_bg_color = self.app_background; // e.g. TextEdit background
+        style.visuals.faint_bg_color = self.app_background; // striped grid is originally from_additive_luminance(5)
+        style.visuals.code_bg_color = self.ui_element_background;
+        style.visuals.window_fill = self.subtle_background;
+        style.visuals.window_stroke = Stroke::new(1.0, self.subtle_borders_and_separators);
+        style.visuals.panel_fill = self.subtle_background;
+        style.visuals.hyperlink_color = self.hovered_solid_backgrounds;
+        //style.visuals.override_text_color = Some(self.text_color());
     }
 }
 
