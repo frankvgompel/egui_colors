@@ -89,7 +89,7 @@ impl Colorix {
 
     /// Applies the theme to the local widget tree only
     pub fn apply_local(&self, ui: &mut egui::Ui) {
-        self.tokens.set_local_egui_visuals(ui);
+        self.tokens.set_local_egui_visuals(ui, self.scales.dark_mode);
     }
 
     fn get_theme_index(&mut self) {
@@ -97,30 +97,34 @@ impl Colorix {
             self.theme_index = i;
         };
     }
+    
+    pub fn is_dark(&self) -> bool {
+        self.scales.dark_mode
+    }
 
     pub fn set_dark(&mut self, ui: &mut egui::Ui, apply_to: ApplyTo) {
         self.scales.dark_mode = true;
-        ui.ctx().set_visuals(egui::Visuals {
+        apply_to.set_visuals(ui, egui::Visuals {
             dark_mode: true,
             ..Default::default()
         });
         self.update_colors();
-        apply_to.apply(ui, &self.tokens);
+        apply_to.apply(ui, self);
     }
 
     pub fn set_light(&mut self, ui: &mut egui::Ui, apply_to: ApplyTo) {
         self.scales.dark_mode = false;
-        ui.ctx().set_visuals(egui::Visuals {
+        apply_to.set_visuals(ui, egui::Visuals {
             dark_mode: false,
             ..Default::default()
         });
         self.update_colors();
-        apply_to.apply(ui, &self.tokens);
+        apply_to.apply(ui, self);
     }
 
     /// WARNING: don't use the `light_dark` buttons that Egui provides.
     /// That will override the theme from this crate.
-    pub fn light_dark_toggle_button(&mut self, ui: &mut egui::Ui, apply_to: ApplyTo) {
+    pub fn light_dark_toggle_button(&mut self, ui: &mut egui::Ui) {
         #![allow(clippy::collapsible_else_if)]
         if ui.ctx().style().visuals.dark_mode {
             self.scales.dark_mode = true;
@@ -134,12 +138,12 @@ impl Colorix {
                 .clicked()
             {
                 self.scales.dark_mode = false;
-                ui.ctx().set_visuals(egui::Visuals {
+                ApplyTo::Global.set_visuals(ui, egui::Visuals {
                     dark_mode: false,
                     ..Default::default()
                 });
                 self.update_colors();
-                apply_to.apply(ui, &self.tokens);
+                ApplyTo::Global.apply(ui, self);
             }
         } else {
             if ui
@@ -152,12 +156,12 @@ impl Colorix {
                 .clicked()
             {
                 self.scales.dark_mode = true;
-                ui.ctx().set_visuals(egui::Visuals {
+                ApplyTo::Global.set_visuals(ui, egui::Visuals {
                     dark_mode: true,
                     ..Default::default()
                 });
                 self.update_colors();
-                apply_to.apply(ui, &self.tokens);
+                ApplyTo::Global.apply(ui, self);
             }
         }
     }
@@ -209,7 +213,7 @@ impl Colorix {
                     {
                         self.theme_index = i;
                         self.update_colors();
-                        apply_to.apply(ui, &self.tokens);
+                        apply_to.apply(ui, self);
                     };
                 }
             });
@@ -250,7 +254,7 @@ impl Colorix {
                         let re = ui.color_edit_button_srgb(rgb);
                         if re.changed() {
                             self.update_color(i);
-                            apply_to.apply(ui, &self.tokens);
+                            apply_to.apply(ui, self);
                         }
                     } else {
                         // Allocate a color edit button's worth of space for non-custom presets,
@@ -271,7 +275,7 @@ impl Colorix {
                                     .clicked()
                                 {
                                     self.update_color(i);
-                                    apply_to.apply(ui, &self.tokens);
+                                    apply_to.apply(ui, self);
                                 };
                             }
                         });

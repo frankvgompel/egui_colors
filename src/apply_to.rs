@@ -1,5 +1,5 @@
-use crate::tokens::ColorTokens;
-use egui::Ui;
+use egui::{Ui, Visuals};
+use crate::Colorix;
 
 /// The `ApplyTo` enum is used to determine if a theme change should be applied
 /// globally, locally or not at all.
@@ -17,13 +17,25 @@ pub enum ApplyTo {
 }
 
 impl ApplyTo {
-    pub(crate) fn apply(self, ui: &mut Ui, tokens: &ColorTokens) {
+    pub(crate) fn apply(self, ui: &mut Ui, colorix: &Colorix) {
         match self {
             Self::Global => {
-                tokens.set_global_egui_visuals(ui.ctx());
+                colorix.apply_global(ui.ctx());
             }
             Self::Local => {
-                tokens.set_local_egui_visuals(ui);
+                colorix.apply_local(ui);
+            }
+            Self::Nothing => {}
+        }
+    }
+
+    pub(crate) fn set_visuals(self, ui: &mut Ui, visuals: Visuals) {
+        match self {
+            Self::Global => {
+                ui.ctx().set_visuals(visuals);
+            }
+            Self::Local => {
+                ui.style_mut().visuals = visuals;
             }
             Self::Nothing => {}
         }

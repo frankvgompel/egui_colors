@@ -85,10 +85,10 @@ impl ColorTokens {
             self.set_egui_style(style);
         });
     }
-    pub(crate) fn set_local_egui_visuals(&self, ui: &mut Ui) {
+    pub(crate) fn set_local_egui_visuals(&self, ui: &mut Ui, dark_mode: bool) {
         let style = ui.style_mut();
 
-        if style.visuals.dark_mode {
+        if dark_mode {
             style.visuals = egui::Visuals::dark();
         } else {
             style.visuals = egui::Visuals::light();
