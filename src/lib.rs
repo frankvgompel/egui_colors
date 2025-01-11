@@ -97,7 +97,9 @@ impl Colorix {
             self.theme_index = i;
         };
     }
-    
+
+    #[must_use]
+    #[allow(clippy::missing_const_for_fn)]
     pub fn is_dark(&self) -> bool {
         self.scales.dark_mode
     }
