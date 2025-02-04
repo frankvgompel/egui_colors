@@ -3,7 +3,7 @@ use crate::color_space::LinSrgb;
 use egui::{
     self,
     style::{TextCursorStyle, WidgetVisuals},
-    Color32, Context, Rounding, Stroke, Ui,
+    Color32, Context, CornerRadius, Stroke, Ui,
 };
 
 /// The functional UI elements mapped to a scale
@@ -159,7 +159,7 @@ impl ColorTokens {
                 bg_fill: self.subtle_background,
                 bg_stroke: Stroke::new(1.0, self.subtle_borders_and_separators), // separators, indentation lines
                 fg_stroke: Stroke::new(1.0, self.low_contrast_text), // normal text color
-                rounding: Rounding::same(2.0),
+                corner_radius: CornerRadius::same(2),
                 expansion: 0.0,
             },
             inactive: WidgetVisuals {
@@ -167,7 +167,7 @@ impl ColorTokens {
                 bg_fill: self.ui_element_background,      // checkbox background
                 bg_stroke: Stroke::new(1.0, self.ui_element_background),
                 fg_stroke: Stroke::new(1.0, self.low_contrast_text), // button text
-                rounding: Rounding::same(2.0),
+                corner_radius: CornerRadius::same(2),
                 expansion: 0.0,
             },
             hovered: WidgetVisuals {
@@ -175,7 +175,7 @@ impl ColorTokens {
                 bg_fill: self.hovered_ui_element_background,
                 bg_stroke: Stroke::new(1.0, self.hovered_ui_element_border), // e.g. hover over window edge or button
                 fg_stroke: Stroke::new(1.5, self.high_contrast_text),
-                rounding: Rounding::same(3.0),
+                corner_radius: CornerRadius::same(3),
                 expansion: 1.0,
             },
             active: WidgetVisuals {
@@ -183,7 +183,7 @@ impl ColorTokens {
                 bg_fill: self.active_ui_element_background,
                 bg_stroke: Stroke::new(1.0, self.ui_element_border_and_focus_rings),
                 fg_stroke: Stroke::new(2.0, self.high_contrast_text),
-                rounding: Rounding::same(2.0),
+                corner_radius: CornerRadius::same(2),
                 expansion: 1.0,
             },
             open: WidgetVisuals {
@@ -191,7 +191,7 @@ impl ColorTokens {
                 bg_fill: self.active_ui_element_background,
                 bg_stroke: Stroke::new(1.0, self.ui_element_border_and_focus_rings),
                 fg_stroke: Stroke::new(1.0, self.high_contrast_text),
-                rounding: Rounding::same(2.0),
+                corner_radius: CornerRadius::same(2),
                 expansion: 0.0,
             },
         };

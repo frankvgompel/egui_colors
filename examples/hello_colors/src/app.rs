@@ -60,7 +60,7 @@ pub fn init() -> Result<(), eframe::Error> {
             cc.egui_ctx.set_fonts(fonts);
             cc.egui_ctx.style_mut(|style| {
                 style.spacing.item_spacing = egui::vec2(5.0, 8.0);
-                style.spacing.window_margin = egui::Margin::same(20.0);
+                style.spacing.window_margin = egui::Margin::same(20);
             });
             Ok(Box::new(App::new(&cc.egui_ctx.clone())))
         }),

@@ -5,7 +5,7 @@
 use crate::{tokens::ColorTokens, ApplyTo};
 use egui::{
     style::{TextCursorStyle, WidgetVisuals},
-    Color32, Context, Id, Rounding, Stroke, Style, Ui,
+    Color32, Context, CornerRadius, Id, Stroke, Style, Ui,
 };
 
 #[allow(clippy::many_single_char_names)]
@@ -264,7 +264,7 @@ impl ColorAnimator {
                             self.animated_tokens.subtle_borders_and_separators,
                         ), // separators, indentation lines
                         fg_stroke: Stroke::new(1.0, self.animated_tokens.low_contrast_text), // normal text color
-                        rounding: Rounding::same(2.0),
+                        corner_radius: CornerRadius::same(2),
                         expansion: 0.0,
                     },
                     inactive: WidgetVisuals {
@@ -272,7 +272,7 @@ impl ColorAnimator {
                         bg_fill: self.animated_tokens.ui_element_background, // checkbox background
                         bg_stroke: Stroke::new(1.0, self.animated_tokens.ui_element_background),
                         fg_stroke: Stroke::new(1.0, self.animated_tokens.low_contrast_text), // button text
-                        rounding: Rounding::same(2.0),
+                        corner_radius: CornerRadius::same(2),
                         expansion: 0.0,
                     },
                     hovered: WidgetVisuals {
@@ -280,7 +280,7 @@ impl ColorAnimator {
                         bg_fill: self.animated_tokens.hovered_ui_element_background,
                         bg_stroke: Stroke::new(1.0, self.animated_tokens.hovered_ui_element_border), // e.g. hover over window edge or button
                         fg_stroke: Stroke::new(1.5, self.animated_tokens.high_contrast_text),
-                        rounding: Rounding::same(3.0),
+                        corner_radius: CornerRadius::same(3),
                         expansion: 1.0,
                     },
                     active: WidgetVisuals {
@@ -291,7 +291,7 @@ impl ColorAnimator {
                             self.animated_tokens.ui_element_border_and_focus_rings,
                         ),
                         fg_stroke: Stroke::new(2.0, self.animated_tokens.high_contrast_text),
-                        rounding: Rounding::same(2.0),
+                        corner_radius: CornerRadius::same(2),
                         expansion: 1.0,
                     },
                     open: WidgetVisuals {
@@ -302,7 +302,7 @@ impl ColorAnimator {
                             self.animated_tokens.ui_element_border_and_focus_rings,
                         ),
                         fg_stroke: Stroke::new(1.0, self.animated_tokens.high_contrast_text),
-                        rounding: Rounding::same(2.0),
+                        corner_radius: CornerRadius::same(2),
                         expansion: 0.0,
                     },
                 };
@@ -352,7 +352,7 @@ impl ColorAnimator {
                 bg_fill: self.animated_tokens.subtle_background,
                 bg_stroke: Stroke::new(1.0, self.animated_tokens.subtle_borders_and_separators), // separators, indentation lines
                 fg_stroke: Stroke::new(1.0, self.animated_tokens.low_contrast_text), // normal text color
-                rounding: Rounding::same(2.0),
+                corner_radius: CornerRadius::same(2),
                 expansion: 0.0,
             },
             inactive: WidgetVisuals {
@@ -360,7 +360,7 @@ impl ColorAnimator {
                 bg_fill: self.animated_tokens.ui_element_background,      // checkbox background
                 bg_stroke: Stroke::new(1.0, self.animated_tokens.ui_element_background),
                 fg_stroke: Stroke::new(1.0, self.animated_tokens.low_contrast_text), // button text
-                rounding: Rounding::same(2.0),
+                corner_radius: CornerRadius::same(2),
                 expansion: 0.0,
             },
             hovered: WidgetVisuals {
@@ -368,7 +368,7 @@ impl ColorAnimator {
                 bg_fill: self.animated_tokens.hovered_ui_element_background,
                 bg_stroke: Stroke::new(1.0, self.animated_tokens.hovered_ui_element_border), // e.g. hover over window edge or button
                 fg_stroke: Stroke::new(1.5, self.animated_tokens.high_contrast_text),
-                rounding: Rounding::same(3.0),
+                corner_radius: CornerRadius::same(3),
                 expansion: 1.0,
             },
             active: WidgetVisuals {
@@ -376,7 +376,7 @@ impl ColorAnimator {
                 bg_fill: self.animated_tokens.active_ui_element_background,
                 bg_stroke: Stroke::new(1.0, self.animated_tokens.ui_element_border_and_focus_rings),
                 fg_stroke: Stroke::new(2.0, self.animated_tokens.high_contrast_text),
-                rounding: Rounding::same(2.0),
+                corner_radius: CornerRadius::same(2),
                 expansion: 1.0,
             },
             open: WidgetVisuals {
@@ -384,7 +384,7 @@ impl ColorAnimator {
                 bg_fill: self.animated_tokens.active_ui_element_background,
                 bg_stroke: Stroke::new(1.0, self.animated_tokens.ui_element_border_and_focus_rings),
                 fg_stroke: Stroke::new(1.0, self.animated_tokens.high_contrast_text),
-                rounding: Rounding::same(2.0),
+                corner_radius: CornerRadius::same(2),
                 expansion: 0.0,
             },
         };

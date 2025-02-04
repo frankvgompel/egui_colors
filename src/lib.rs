@@ -20,6 +20,7 @@ pub mod utils;
 use animator::ColorAnimator;
 use egui::{Context, Ui};
 use scales::Scales;
+use std::sync::Arc;
 use tokens::{ColorTokens, ThemeColor};
 use utils::{LABELS, THEMES, THEME_NAMES};
 
@@ -435,7 +436,7 @@ impl Colorix {
         if copy {
             ui.add_space(10.);
             if ui.button("Copy theme to clipboard").clicked() {
-                ui.output_mut(|out| out.copied_text = format!("{:#?}", self.theme));
+                ui.ctx().copy_text(format!("{:#?}", self.theme));
             }
         }
     }
@@ -483,7 +484,7 @@ impl Colorix {
         mesh.colored_vertex(rect.right_bottom(), bg);
         mesh.add_triangle(0, 1, 2);
         mesh.add_triangle(1, 2, 3);
-        painter.add(egui::Shape::Mesh(mesh));
+        painter.add(egui::Shape::Mesh(Arc::new(mesh)));
     }
     /// Returns the currently set theme
     #[must_use]
