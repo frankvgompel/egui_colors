@@ -2,9 +2,9 @@
 //!
 //! Experimental toolkit to explore color styling in [`egui`](https://github.com/emilk/egui)
 //!
-//! It is based on the [`Radix`](https://www.radix-ui.com/colors/docs/palette-composition/understanding-the-scale) system which maps a color scale to 12 functional
+//! Based on the [`Radix`](https://www.radix-ui.com/colors/docs/palette-composition/understanding-the-scale) system which maps a color scale to 12 functional
 //! UI elements.
-//! Scales (both light and dark mode) are computed and based on luminosity contrast algorithm defined by [`APCA`](https://github.com/Myndex).
+//! Scales (both light and dark mode) are computed with luminosity contrast algorithm defined by [`APCA`](https://github.com/Myndex).
 //! Every scale uses one predefined `[u8; 3]` rgb color that is used as an accent color (if suitable).
 //!
 //!
@@ -51,6 +51,7 @@ pub(crate) enum ApplyTo {
 /// // initialize the Colorix with a theme
 /// // a color theme is defined as [ThemeColor; 12]
 /// // a ThemeColor is an enum with several preset colors and one Custom.
+///  // You can choose between different scopes: global, local or extra_set.
 /// impl App {
 ///     fn new(ctx: &Context) -> Self {
 ///         let yellow_theme = [ThemeColor::Custom([232, 210, 7]); 12];
@@ -88,7 +89,7 @@ impl Colorix {
         colorix
     }
     /// Initialize a Colorix instance that applies to local ui.
-    /// It needs a `update_locally(ui)` to work.
+    /// It needs an `update_locally(ui)` in the egui `update` function to work.
     pub fn local(ui: &mut Ui, theme: Theme) -> Self {
         let mut colorix = Self {
             theme,
@@ -124,12 +125,28 @@ impl Colorix {
         colorix.update_colors(None, None);
         colorix
     }
+    /// Set animator
+    /// # Example
+    ///
+    /// ```
+    /// impl App {
+    ///     fn new(ctx: &Context) -> Self {
+    ///         let yellow_theme = [ThemeColor::Custom([232, 210, 7]); 12];
+    ///         let colorix = Colorix::global(ctx, yellow_theme).animated().set_time(2.0);
+    ///         Self {
+    ///             colorix,
+    ///             ..Default::default()
+    ///         }
+    ///     }
+    /// }
+    /// ```
     #[must_use]
     pub fn animated(mut self) -> Self {
         self.animated = true;
         self.init_animator();
         self
     }
+    /// Change the default time (1.0) of the animation.
     #[must_use]
     pub fn set_time(mut self, new_time: f32) -> Self {
         if self.animated {
@@ -196,7 +213,8 @@ impl Colorix {
         self.scales.dark_mode = mode;
         self.tokens.dark_mode = mode;
     }
-
+    /// If you initialize a Colorix instance with a `local` scope, this needs to be placed
+    /// inside the egui `update` fn.
     pub fn update_locally(&mut self, ui: &mut Ui) {
         if self.apply_to == ApplyTo::Local {
             if self.animated {
@@ -214,12 +232,13 @@ impl Colorix {
             ApplyTo::ExtraScale => {}
         }
     }
-
+    /// Change the color mode to dark.
     pub fn set_dark(&mut self, ui: &mut Ui) {
         self.set_colorix_mode(true);
         self.set_ui_mode(ui, true);
         self.match_and_update_colors(ui);
     }
+    /// Change the color mode to light.
     pub fn set_light(&mut self, ui: &mut Ui) {
         self.set_colorix_mode(false);
         self.set_ui_mode(ui, false);
@@ -288,12 +307,12 @@ impl Colorix {
 
     /// WARNING: don't use the `light_dark` buttons that egui provides.
     /// That will override the themes from this crate. It needs the size for the button in f32
-    pub fn light_dark_toggle_button(&mut self, ui: &mut Ui, button_size: f32) {
+    pub fn light_dark_toggle_button(&mut self, ui: &mut Ui, size: f32) {
         #![allow(clippy::collapsible_else_if)]
         if self.dark_mode() {
             if ui
                 .add(
-                    egui::Button::new(egui::RichText::new("☀").size(button_size))
+                    egui::Button::new(egui::RichText::new("☀").size(size))
                         .min_size(egui::Vec2::new(30., 30.))
                         .frame(false),
                 )
@@ -307,7 +326,7 @@ impl Colorix {
         } else {
             if ui
                 .add(
-                    egui::Button::new(egui::RichText::new("🌙").size(button_size))
+                    egui::Button::new(egui::RichText::new("🌙").size(size))
                         .min_size(egui::Vec2::new(30., 30.))
                         .frame(false),
                 )

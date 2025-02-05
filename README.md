@@ -15,7 +15,7 @@ Scales (both light and dark mode) are computed and based on luminosity contrast 
 
 Although it is perfectly possible to use egui_colors to style your egui app, it's intended use is to explore the styling landscape and see where egui's and users needs lie.
 
-The default egui font might not be suited (too thin) for this system. The example uses the Rerun one: 'inter_medium'.
+The default egui font might not be suited (too thin) for this system. The example 'hello_colors` uses the Rerun one: 'inter_medium'.
 
 
 ## Usage
@@ -35,11 +35,12 @@ struct App {
 // Choose a light or dark theme.
 // initialize the Colorix with a theme
 // A `ThemeColor` is an enum with several preset colors and one Custom.
+// You must choose from 3 different scopes: global, local or extra_scale
 impl App {
     fn new(ctx: &egui::Context) -> Self {
         ctx.set_theme(egui::Theme::Dark);
         let yellow_theme = [ThemeColor::Custom([232, 210, 7]); 12]
-        let colorix = Colorix::init(ctx, yellow_theme);
+        let colorix = Colorix::global(ctx, yellow_theme);
         Self {
             colorix,
             ..Default::default()
@@ -50,8 +51,8 @@ impl App {
 
 Several utility tools are available.
 ```rust
-// use the provided function 'light_dark_toggle_button' for switching between light and dark mode. If you use one from egui, it will revert to the egui theme.
-app.colorix.light_dark_toggle_button(ui);
+// use the provided function 'light_dark_toggle_button' for switching between light and dark mode. Don't use one from egui, it will revert to the egui theme.
+app.colorix.light_dark_toggle_button(ui, 14.);
 
 // A color picker for a custom color. 
 // NOTE: the color picker is clamped to suitable ranges. 
@@ -73,6 +74,41 @@ app.colorix.themes_dropdown(ui, custom, false);
 app.colorix.draw_background(ctx, false);
 
 ```
+Custom components can be set with `colorix.tokens`
+
+## Animation
+
+For animation the colorix instance needs to be initialized with the `animated()` function. When `global` or `extra_scale` is selected, the `set_animator()` function should be set in the egui `update()` function. The `local` scope needs the `update_locally()` in the egui `update()`.
+```rust
+use egui_color::{Colorix; ThemeColor};
+
+// Define a colorix field in your egui App
+#[derive(Default)]
+struct App {
+    colorix: Colorix,
+    ...
+}
+// Set the animator with the `animated()` function. 
+// Default animation time (1.0) can be changed with `set_time()`
+impl App {
+    fn new(ctx: &egui::Context) -> Self {
+        ctx.set_theme(egui::Theme::Dark);
+        let yellow_theme = [ThemeColor::Custom([232, 210, 7]); 12]
+        let colorix = Colorix::global(ctx, yellow_theme).animated().set_time(2.0);
+        Self {
+            colorix,
+            ..Default::default()
+        }
+    }
+}
+```
+Custom animated color components can be set with `colorix.animator.animated_tokens`.
+
+To animate a theme change, use 
+```rust
+update_theme(ctx, utils::EGUI_THEME)
+```
+
 
 ## Features
 
