@@ -11,7 +11,7 @@ categories = ["gui", "graphics"]
 exclude = ["examples", "media"]
 
 [workspace]
-members = ["examples/hello_colors"]
+members = ["examples/hello_colors", "examples/local_scope"]
 
 [dependencies]
 egui = { version = "0.31.0", default-features = false }
