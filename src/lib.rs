@@ -128,7 +128,7 @@ impl Colorix {
     /// Set animator
     /// # Example
     ///
-    /// ```
+    /// ```ignore
     /// impl App {
     ///     fn new(ctx: &Context) -> Self {
     ///         let yellow_theme = [ThemeColor::Custom([232, 210, 7]); 12];
