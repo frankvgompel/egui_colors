@@ -6,7 +6,7 @@ edition = "2021"
 license = "MIT"
 description = "Experimental color styling toolkit for egui"
 repository = "https://github.com/frankvgompel/egui_colors"
-keywords = ["graphics", "egui", "styling", "colors", "gui", "animation"]
+keywords = ["graphics", "egui", "styling", "colors", "gui"]
 categories = ["gui", "graphics"]
 exclude = ["examples", "media"]
 
