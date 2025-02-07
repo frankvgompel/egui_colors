@@ -41,7 +41,7 @@ impl ColorAnimator {
         Self {
             anim_id: None,
             progress: 0.0,
-            animation_time: 2.3,
+            animation_time: 1.,
             token_shift: true,
             animation_done: true,
             animation_in_progress: false,
