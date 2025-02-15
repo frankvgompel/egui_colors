@@ -1,5 +1,20 @@
 use crate::{tokens::ThemeColor, Theme};
 
+pub const VERMILLION: Theme = [
+    ThemeColor::Gold,
+    ThemeColor::Gold,
+    ThemeColor::Gold,
+    ThemeColor::Gray,
+    ThemeColor::Gray,
+    ThemeColor::Gray,
+    ThemeColor::Cyan,
+    ThemeColor::Cyan,
+    ThemeColor::Custom([232, 67, 0]),
+    ThemeColor::Custom([232, 67, 0]),
+    ThemeColor::Gray,
+    ThemeColor::Cyan,
+];
+
 pub const EGUI_THEME: Theme = [
     ThemeColor::Gray,
     ThemeColor::Gray,
@@ -105,7 +120,7 @@ pub const SEVENTIES: Theme = [
     ThemeColor::Gray,
 ];
 
-pub const THEMES: [Theme; 7] = [
+pub const THEMES: [Theme; 8] = [
     EGUI_THEME,
     INDIGO_JADE,
     GRASS_BRONZE,
@@ -113,6 +128,7 @@ pub const THEMES: [Theme; 7] = [
     COOL,
     SEVENTIES,
     OFFICE_GRAY,
+    VERMILLION,
 ];
 
 pub(crate) const LABELS: [&str; 12] = [
@@ -130,7 +146,7 @@ pub(crate) const LABELS: [&str; 12] = [
     "high contrast text",
 ];
 
-pub(crate) const THEME_NAMES: [&str; 7] = [
+pub(crate) const THEME_NAMES: [&str; 8] = [
     "Egui",
     "Indigo/jade",
     "Grass/bronze",
@@ -138,4 +154,5 @@ pub(crate) const THEME_NAMES: [&str; 7] = [
     "Cool",
     "Seventies",
     "Office Gray",
+    "Vermillion",
 ];
