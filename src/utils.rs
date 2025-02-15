@@ -105,7 +105,7 @@ pub const SEVENTIES: Theme = [
     ThemeColor::Gray,
 ];
 
-pub(crate) const THEMES: [Theme; 7] = [
+pub const THEMES: [Theme; 7] = [
     EGUI_THEME,
     INDIGO_JADE,
     GRASS_BRONZE,
