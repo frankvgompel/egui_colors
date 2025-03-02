@@ -97,7 +97,7 @@ impl ColorTokens {
         }
     }
 
-    pub(crate) fn update_schema(&mut self, i: usize, fill: Color32) {
+    pub(crate) const fn update_schema(&mut self, i: usize, fill: Color32) {
         match i {
             0 => self.app_background = fill,
             1 => self.subtle_background = fill,

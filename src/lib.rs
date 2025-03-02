@@ -141,14 +141,14 @@ impl Colorix {
     /// }
     /// ```
     #[must_use]
-    pub fn animated(mut self) -> Self {
+    pub const fn animated(mut self) -> Self {
         self.animated = true;
         self.init_animator();
         self
     }
     /// Change the default time (1.0) of the animation.
     #[must_use]
-    pub fn set_time(mut self, new_time: f32) -> Self {
+    pub const fn set_time(mut self, new_time: f32) -> Self {
         if self.animated {
             self.animator.set_time(new_time);
         }
@@ -170,7 +170,7 @@ impl Colorix {
         self.scales.dark_mode
     }
 
-    fn init_animator(&mut self) {
+    const fn init_animator(&mut self) {
         self.animator = ColorAnimator::new(self.tokens);
         self.animator.apply_to = self.apply_to;
     }
@@ -191,7 +191,7 @@ impl Colorix {
     fn get_theme_index(&mut self) {
         if let Some(i) = THEMES.iter().position(|t| t == &self.theme) {
             self.theme_index = i;
-        };
+        }
     }
     /// create theme based on 1 custom color from color picker
     pub fn twelve_from_custom(&mut self, ui: &mut Ui) {
@@ -209,7 +209,7 @@ impl Colorix {
             }
         }
     }
-    fn set_colorix_mode(&mut self, mode: bool) {
+    const fn set_colorix_mode(&mut self, mode: bool) {
         self.scales.dark_mode = mode;
         self.tokens.dark_mode = mode;
     }
@@ -386,7 +386,7 @@ impl Colorix {
                     {
                         self.theme_index = i;
                         self.match_and_update_colors(ui);
-                    };
+                    }
                 }
             });
     }
@@ -446,7 +446,7 @@ impl Colorix {
                                     .clicked()
                                 {
                                     self.update_color(ui, i);
-                                };
+                                }
                             }
                         });
                 });
@@ -471,7 +471,7 @@ impl Colorix {
         .changed()
         {
             self.scales.clamp_custom();
-        };
+        }
     }
 
     /// Set a background gradient. Choose 'true' for color from `solid_backgrounds` (if animated `active_ui_element_background`)

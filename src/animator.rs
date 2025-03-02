@@ -79,7 +79,7 @@ impl ColorAnimator {
             }
         }
     }
-    pub(crate) fn set_time(&mut self, new_time: f32) {
+    pub(crate) const fn set_time(&mut self, new_time: f32) {
         self.animation_time = new_time;
     }
     pub(crate) fn create_id(&mut self, ctx: &Context) {
