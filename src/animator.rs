@@ -121,11 +121,6 @@ impl ColorAnimator {
                 // if animation done, local ui needs to keep updating every frame
                 ApplyTo::Local => {
                     if let Some(ui) = ui {
-                        // let shadow = if ui.style_mut().visuals.dark_mode {
-                        //     self.s2
-                        // } else {
-                        //     self.s1
-                        // };
                         self.apply_local_ui(ui.style_mut());
                     }
                 }
