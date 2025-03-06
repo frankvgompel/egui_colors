@@ -188,7 +188,7 @@ impl ColorAnimator {
         );
         self.animated_tokens.ui_element_background = interpolate_color(
             self.tokens.ui_element_background,
-            tokens.subtle_background,
+            tokens.ui_element_background,
             self.progress,
         );
         self.animated_tokens.hovered_ui_element_background = interpolate_color(
