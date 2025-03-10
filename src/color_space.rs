@@ -146,9 +146,6 @@ impl Okhsl {
 }
 
 fn linear_srgb_to_oklab(c: LinSrgb) -> Oklab {
-    // let l = 0.4122214708_f32 * c.red + 0.5363325363_f32 * c.green + 0.0514459929_f32 * c.blue;
-    // let m = 0.2119034982_f32 * c.red + 0.6806995451_f32 * c.green + 0.1073969566_f32 * c.blue;
-    // let s = 0.0883024619_f32 * c.red + 0.2817188376_f32 * c.green + 0.6299787005_f32 * c.blue;
     let l = 0.051_445_995_f32.mul_add(
         c.blue,
         0.412_221_46_f32.mul_add(c.red, 0.536_332_55 * c.green),
