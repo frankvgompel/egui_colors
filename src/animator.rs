@@ -3,10 +3,7 @@
 #![allow(clippy::float_cmp)]
 
 use crate::{tokens::ColorTokens, ApplyTo};
-use egui::{
-    style::{TextCursorStyle, WidgetVisuals},
-    Color32, Context, CornerRadius, Id, Stroke, Style, Ui,
-};
+use egui::{Color32, Context, Id, Style, Ui};
 
 #[allow(clippy::many_single_char_names)]
 fn interpolate_color(start: Color32, end: Color32, interpolation: f32) -> Color32 {
@@ -242,74 +239,54 @@ impl ColorAnimator {
 
         match self.apply_to {
             ApplyTo::Global | ApplyTo::Local => {
-                let selection = egui::style::Selection {
-                    bg_fill: self.animated_tokens.solid_backgrounds,
-                    stroke: Stroke::new(1.0, self.animated_tokens.on_accent),
-                };
-                let text_cursor = TextCursorStyle {
-                    stroke: Stroke::new(2.0, self.animated_tokens.low_contrast_text),
-                    ..Default::default()
-                };
-                let widgets = egui::style::Widgets {
-                    noninteractive: WidgetVisuals {
-                        weak_bg_fill: self.animated_tokens.subtle_background,
-                        bg_fill: self.animated_tokens.subtle_background,
-                        bg_stroke: Stroke::new(
-                            1.0,
-                            self.animated_tokens.subtle_borders_and_separators,
-                        ), // separators, indentation lines
-                        fg_stroke: Stroke::new(1.0, self.animated_tokens.low_contrast_text), // normal text color
-                        corner_radius: CornerRadius::same(2),
-                        expansion: 0.0,
-                    },
-                    inactive: WidgetVisuals {
-                        weak_bg_fill: self.animated_tokens.ui_element_background, // button background
-                        bg_fill: self.animated_tokens.ui_element_background, // checkbox background
-                        bg_stroke: Stroke::new(1.0, self.animated_tokens.ui_element_background),
-                        fg_stroke: Stroke::new(1.0, self.animated_tokens.low_contrast_text), // button text
-                        corner_radius: CornerRadius::same(2),
-                        expansion: 0.0,
-                    },
-                    hovered: WidgetVisuals {
-                        weak_bg_fill: self.animated_tokens.hovered_ui_element_background,
-                        bg_fill: self.animated_tokens.hovered_ui_element_background,
-                        bg_stroke: Stroke::new(1.0, self.animated_tokens.hovered_ui_element_border), // e.g. hover over window edge or button
-                        fg_stroke: Stroke::new(1.5, self.animated_tokens.high_contrast_text),
-                        corner_radius: CornerRadius::same(3),
-                        expansion: 1.0,
-                    },
-                    active: WidgetVisuals {
-                        weak_bg_fill: self.animated_tokens.active_ui_element_background,
-                        bg_fill: self.animated_tokens.active_ui_element_background,
-                        bg_stroke: Stroke::new(
-                            1.0,
-                            self.animated_tokens.ui_element_border_and_focus_rings,
-                        ),
-                        fg_stroke: Stroke::new(2.0, self.animated_tokens.high_contrast_text),
-                        corner_radius: CornerRadius::same(2),
-                        expansion: 1.0,
-                    },
-                    open: WidgetVisuals {
-                        weak_bg_fill: self.animated_tokens.active_ui_element_background,
-                        bg_fill: self.animated_tokens.active_ui_element_background,
-                        bg_stroke: Stroke::new(
-                            1.0,
-                            self.animated_tokens.ui_element_border_and_focus_rings,
-                        ),
-                        fg_stroke: Stroke::new(1.0, self.animated_tokens.high_contrast_text),
-                        corner_radius: CornerRadius::same(2),
-                        expansion: 0.0,
-                    },
-                };
-                style.visuals.selection = selection;
-                style.visuals.widgets = widgets;
-                style.visuals.text_cursor = text_cursor;
+                style.visuals.text_cursor.stroke.color = self.animated_tokens.low_contrast_text;
+                style.visuals.selection.bg_fill = self.animated_tokens.solid_backgrounds;
+                style.visuals.selection.stroke.color = self.animated_tokens.on_accent;
+                style.visuals.widgets.noninteractive.weak_bg_fill =
+                    self.animated_tokens.subtle_background;
+                style.visuals.widgets.noninteractive.bg_fill =
+                    self.animated_tokens.subtle_background;
+                style.visuals.widgets.noninteractive.bg_stroke.color =
+                    self.animated_tokens.subtle_borders_and_separators; // separators, indentation lines
+                style.visuals.widgets.noninteractive.fg_stroke.color =
+                    self.animated_tokens.low_contrast_text; // normal text color;
+                style.visuals.widgets.inactive.weak_bg_fill =
+                    self.animated_tokens.ui_element_background; // button background
+                style.visuals.widgets.inactive.bg_fill = self.animated_tokens.ui_element_background; // checkbox background
+                style.visuals.widgets.inactive.bg_stroke.color =
+                    self.animated_tokens.ui_element_background;
+                style.visuals.widgets.inactive.fg_stroke.color =
+                    self.animated_tokens.low_contrast_text; // button text
+                style.visuals.widgets.hovered.weak_bg_fill =
+                    self.animated_tokens.hovered_ui_element_background;
+                style.visuals.widgets.hovered.bg_fill =
+                    self.animated_tokens.hovered_ui_element_background;
+                style.visuals.widgets.hovered.bg_stroke.color =
+                    self.animated_tokens.hovered_ui_element_border; // e.g. hover over window edge or button
+                style.visuals.widgets.hovered.fg_stroke.color =
+                    self.animated_tokens.high_contrast_text;
+                style.visuals.widgets.active.weak_bg_fill =
+                    self.animated_tokens.active_ui_element_background;
+                style.visuals.widgets.active.bg_fill =
+                    self.animated_tokens.active_ui_element_background;
+                style.visuals.widgets.active.bg_stroke.color =
+                    self.animated_tokens.ui_element_border_and_focus_rings;
+                style.visuals.widgets.active.fg_stroke.color =
+                    self.animated_tokens.high_contrast_text;
+                style.visuals.widgets.open.weak_bg_fill =
+                    self.animated_tokens.active_ui_element_background;
+                style.visuals.widgets.open.bg_fill =
+                    self.animated_tokens.active_ui_element_background;
+                style.visuals.widgets.open.bg_stroke.color =
+                    self.animated_tokens.ui_element_border_and_focus_rings;
+                style.visuals.widgets.open.fg_stroke.color =
+                    self.animated_tokens.high_contrast_text;
                 style.visuals.extreme_bg_color = self.animated_tokens.app_background; // e.g. TextEdit background
                 style.visuals.faint_bg_color = self.animated_tokens.app_background; // striped grid is originally from_additive_luminance(5)
                 style.visuals.code_bg_color = self.animated_tokens.ui_element_background;
                 style.visuals.window_fill = self.animated_tokens.subtle_background;
-                style.visuals.window_stroke =
-                    Stroke::new(1.0, self.animated_tokens.subtle_borders_and_separators);
+                style.visuals.window_stroke.color =
+                    self.animated_tokens.subtle_borders_and_separators;
                 style.visuals.panel_fill = self.animated_tokens.subtle_background;
                 style.visuals.hyperlink_color = self.animated_tokens.hovered_solid_backgrounds;
                 style.visuals.window_shadow.color = self.shadow;
@@ -332,66 +309,42 @@ impl ColorAnimator {
             }
         }
     }
-    fn apply_local_ui(&self, style: &mut egui::style::Style) {
-        let selection = egui::style::Selection {
-            bg_fill: self.animated_tokens.solid_backgrounds,
-            stroke: Stroke::new(1.0, self.animated_tokens.on_accent),
-        };
-        let text_cursor = TextCursorStyle {
-            stroke: Stroke::new(2.0, self.animated_tokens.low_contrast_text),
-            ..Default::default()
-        };
-        let widgets = egui::style::Widgets {
-            noninteractive: WidgetVisuals {
-                weak_bg_fill: self.animated_tokens.subtle_background,
-                bg_fill: self.animated_tokens.subtle_background,
-                bg_stroke: Stroke::new(1.0, self.animated_tokens.subtle_borders_and_separators), // separators, indentation lines
-                fg_stroke: Stroke::new(1.0, self.animated_tokens.low_contrast_text), // normal text color
-                corner_radius: CornerRadius::same(2),
-                expansion: 0.0,
-            },
-            inactive: WidgetVisuals {
-                weak_bg_fill: self.animated_tokens.ui_element_background, // button background
-                bg_fill: self.animated_tokens.ui_element_background,      // checkbox background
-                bg_stroke: Stroke::new(1.0, self.animated_tokens.ui_element_background),
-                fg_stroke: Stroke::new(1.0, self.animated_tokens.low_contrast_text), // button text
-                corner_radius: CornerRadius::same(2),
-                expansion: 0.0,
-            },
-            hovered: WidgetVisuals {
-                weak_bg_fill: self.animated_tokens.hovered_ui_element_background,
-                bg_fill: self.animated_tokens.hovered_ui_element_background,
-                bg_stroke: Stroke::new(1.0, self.animated_tokens.hovered_ui_element_border), // e.g. hover over window edge or button
-                fg_stroke: Stroke::new(1.5, self.animated_tokens.high_contrast_text),
-                corner_radius: CornerRadius::same(3),
-                expansion: 1.0,
-            },
-            active: WidgetVisuals {
-                weak_bg_fill: self.animated_tokens.active_ui_element_background,
-                bg_fill: self.animated_tokens.active_ui_element_background,
-                bg_stroke: Stroke::new(1.0, self.animated_tokens.ui_element_border_and_focus_rings),
-                fg_stroke: Stroke::new(2.0, self.animated_tokens.high_contrast_text),
-                corner_radius: CornerRadius::same(2),
-                expansion: 1.0,
-            },
-            open: WidgetVisuals {
-                weak_bg_fill: self.animated_tokens.active_ui_element_background,
-                bg_fill: self.animated_tokens.active_ui_element_background,
-                bg_stroke: Stroke::new(1.0, self.animated_tokens.ui_element_border_and_focus_rings),
-                fg_stroke: Stroke::new(1.0, self.animated_tokens.high_contrast_text),
-                corner_radius: CornerRadius::same(2),
-                expansion: 0.0,
-            },
-        };
-        style.visuals.selection = selection;
-        style.visuals.widgets = widgets;
-        style.visuals.text_cursor = text_cursor;
+    const fn apply_local_ui(&self, style: &mut egui::style::Style) {
+        style.visuals.text_cursor.stroke.color = self.animated_tokens.low_contrast_text;
+        style.visuals.selection.bg_fill = self.animated_tokens.solid_backgrounds;
+        style.visuals.selection.stroke.color = self.animated_tokens.on_accent;
+        style.visuals.widgets.noninteractive.weak_bg_fill = self.animated_tokens.subtle_background;
+        style.visuals.widgets.noninteractive.bg_fill = self.animated_tokens.subtle_background;
+        style.visuals.widgets.noninteractive.bg_stroke.color =
+            self.animated_tokens.subtle_borders_and_separators; // separators, indentation lines
+        style.visuals.widgets.noninteractive.fg_stroke.color =
+            self.animated_tokens.low_contrast_text; // normal text color;
+        style.visuals.widgets.inactive.weak_bg_fill = self.animated_tokens.ui_element_background; // button background
+        style.visuals.widgets.inactive.bg_fill = self.animated_tokens.ui_element_background; // checkbox background
+        style.visuals.widgets.inactive.bg_stroke.color = self.animated_tokens.ui_element_background;
+        style.visuals.widgets.inactive.fg_stroke.color = self.animated_tokens.low_contrast_text; // button text
+        style.visuals.widgets.hovered.weak_bg_fill =
+            self.animated_tokens.hovered_ui_element_background;
+        style.visuals.widgets.hovered.bg_fill = self.animated_tokens.hovered_ui_element_background;
+        style.visuals.widgets.hovered.bg_stroke.color =
+            self.animated_tokens.hovered_ui_element_border; // e.g. hover over window edge or button
+        style.visuals.widgets.hovered.fg_stroke.color = self.animated_tokens.high_contrast_text;
+        style.visuals.widgets.active.weak_bg_fill =
+            self.animated_tokens.active_ui_element_background;
+        style.visuals.widgets.active.bg_fill = self.animated_tokens.active_ui_element_background;
+        style.visuals.widgets.active.bg_stroke.color =
+            self.animated_tokens.ui_element_border_and_focus_rings;
+        style.visuals.widgets.active.fg_stroke.color = self.animated_tokens.high_contrast_text;
+        style.visuals.widgets.open.weak_bg_fill = self.animated_tokens.active_ui_element_background;
+        style.visuals.widgets.open.bg_fill = self.animated_tokens.active_ui_element_background;
+        style.visuals.widgets.open.bg_stroke.color =
+            self.animated_tokens.ui_element_border_and_focus_rings;
+        style.visuals.widgets.open.fg_stroke.color = self.animated_tokens.high_contrast_text;
         style.visuals.extreme_bg_color = self.animated_tokens.app_background; // e.g. TextEdit background
         style.visuals.faint_bg_color = self.animated_tokens.app_background; // striped grid is originally from_additive_luminance(5)
         style.visuals.code_bg_color = self.animated_tokens.ui_element_background;
         style.visuals.window_fill = self.animated_tokens.subtle_background;
-        style.visuals.window_stroke =
-            Stroke::new(1.0, self.animated_tokens.subtle_borders_and_separators);
+        style.visuals.window_stroke.color = self.animated_tokens.subtle_borders_and_separators;
         style.visuals.panel_fill = self.animated_tokens.subtle_background;
         style.visuals.hyperlink_color = self.animated_tokens.hovered_solid_backgrounds;
         style.visuals.window_shadow.color = self.shadow;

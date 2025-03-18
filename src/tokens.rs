@@ -1,10 +1,6 @@
-use crate::apca::estimate_lc;
 use crate::color_space::LinSrgb;
-use egui::{
-    self,
-    style::{TextCursorStyle, WidgetVisuals},
-    Color32, Context, CornerRadius, Stroke, Ui,
-};
+use crate::{apca::estimate_lc, ApplyTo};
+use egui::{self, Color32, Context, Ui};
 
 /// The functional UI elements mapped to a scale
 #[derive(Default, Debug, Clone, Copy)]
@@ -24,6 +20,7 @@ pub struct ColorTokens {
     pub(crate) inverse_color: bool,
     pub(crate) on_accent: Color32,
     pub(crate) dark_mode: bool,
+    pub(crate) apply_to: ApplyTo,
 }
 
 impl ColorTokens {
@@ -145,67 +142,40 @@ impl ColorTokens {
         } else {
             Color32::from_black_alpha(25)
         };
-        let selection = egui::style::Selection {
-            bg_fill: self.solid_backgrounds,
-            stroke: Stroke::new(1.0, self.on_accent),
-        };
-        let text_cursor = TextCursorStyle {
-            stroke: Stroke::new(2.0, self.low_contrast_text),
-            ..Default::default()
-        };
-        let widgets = egui::style::Widgets {
-            noninteractive: WidgetVisuals {
-                weak_bg_fill: self.subtle_background,
-                bg_fill: self.subtle_background,
-                bg_stroke: Stroke::new(1.0, self.subtle_borders_and_separators), // separators, indentation lines
-                fg_stroke: Stroke::new(1.0, self.low_contrast_text), // normal text color
-                corner_radius: CornerRadius::same(2),
-                expansion: 0.0,
-            },
-            inactive: WidgetVisuals {
-                weak_bg_fill: self.ui_element_background, // button background
-                bg_fill: self.ui_element_background,      // checkbox background
-                bg_stroke: Stroke::new(1.0, self.ui_element_background),
-                fg_stroke: Stroke::new(1.0, self.low_contrast_text), // button text
-                corner_radius: CornerRadius::same(2),
-                expansion: 0.0,
-            },
-            hovered: WidgetVisuals {
-                weak_bg_fill: self.hovered_ui_element_background,
-                bg_fill: self.hovered_ui_element_background,
-                bg_stroke: Stroke::new(1.0, self.hovered_ui_element_border), // e.g. hover over window edge or button
-                fg_stroke: Stroke::new(1.5, self.high_contrast_text),
-                corner_radius: CornerRadius::same(3),
-                expansion: 1.0,
-            },
-            active: WidgetVisuals {
-                weak_bg_fill: self.active_ui_element_background,
-                bg_fill: self.active_ui_element_background,
-                bg_stroke: Stroke::new(1.0, self.ui_element_border_and_focus_rings),
-                fg_stroke: Stroke::new(2.0, self.high_contrast_text),
-                corner_radius: CornerRadius::same(2),
-                expansion: 1.0,
-            },
-            open: WidgetVisuals {
-                weak_bg_fill: self.active_ui_element_background,
-                bg_fill: self.active_ui_element_background,
-                bg_stroke: Stroke::new(1.0, self.ui_element_border_and_focus_rings),
-                fg_stroke: Stroke::new(1.0, self.high_contrast_text),
-                corner_radius: CornerRadius::same(2),
-                expansion: 0.0,
-            },
-        };
-        style.visuals.selection = selection;
-        style.visuals.widgets = widgets;
-        style.visuals.text_cursor = text_cursor;
-        style.visuals.extreme_bg_color = self.app_background; // e.g. TextEdit background
-        style.visuals.faint_bg_color = self.app_background; // striped grid is originally from_additive_luminance(5)
-        style.visuals.code_bg_color = self.ui_element_background;
-        style.visuals.window_fill = self.subtle_background;
-        style.visuals.window_stroke = Stroke::new(1.0, self.subtle_borders_and_separators);
-        style.visuals.panel_fill = self.subtle_background;
-        style.visuals.hyperlink_color = self.hovered_solid_backgrounds;
-        style.visuals.window_shadow.color = shadow;
+        if self.apply_to != ApplyTo::ExtraScale {
+            style.visuals.text_cursor.stroke.color = self.low_contrast_text;
+            style.visuals.selection.bg_fill = self.solid_backgrounds;
+            style.visuals.selection.stroke.color = self.on_accent;
+            style.visuals.widgets.noninteractive.weak_bg_fill = self.subtle_background;
+            style.visuals.widgets.noninteractive.bg_fill = self.subtle_background;
+            style.visuals.widgets.noninteractive.bg_stroke.color =
+                self.subtle_borders_and_separators; // separators, indentation lines
+            style.visuals.widgets.noninteractive.fg_stroke.color = self.low_contrast_text; // normal text color;
+            style.visuals.widgets.inactive.weak_bg_fill = self.ui_element_background; // button background
+            style.visuals.widgets.inactive.bg_fill = self.ui_element_background; // checkbox background
+            style.visuals.widgets.inactive.bg_stroke.color = self.ui_element_background;
+            style.visuals.widgets.inactive.fg_stroke.color = self.low_contrast_text; // button text
+            style.visuals.widgets.hovered.weak_bg_fill = self.hovered_ui_element_background;
+            style.visuals.widgets.hovered.bg_fill = self.hovered_ui_element_background;
+            style.visuals.widgets.hovered.bg_stroke.color = self.hovered_ui_element_border; // e.g. hover over window edge or button
+            style.visuals.widgets.hovered.fg_stroke.color = self.high_contrast_text;
+            style.visuals.widgets.active.weak_bg_fill = self.active_ui_element_background;
+            style.visuals.widgets.active.bg_fill = self.active_ui_element_background;
+            style.visuals.widgets.active.bg_stroke.color = self.ui_element_border_and_focus_rings;
+            style.visuals.widgets.active.fg_stroke.color = self.high_contrast_text;
+            style.visuals.widgets.open.weak_bg_fill = self.active_ui_element_background;
+            style.visuals.widgets.open.bg_fill = self.active_ui_element_background;
+            style.visuals.widgets.open.bg_stroke.color = self.ui_element_border_and_focus_rings;
+            style.visuals.widgets.open.fg_stroke.color = self.high_contrast_text;
+            style.visuals.extreme_bg_color = self.app_background; // e.g. TextEdit background
+            style.visuals.faint_bg_color = self.app_background; // striped grid is originally from_additive_luminance(5)
+            style.visuals.code_bg_color = self.ui_element_background;
+            style.visuals.window_fill = self.subtle_background;
+            style.visuals.window_stroke.color = self.subtle_borders_and_separators;
+            style.visuals.panel_fill = self.subtle_background;
+            style.visuals.hyperlink_color = self.hovered_solid_backgrounds;
+            style.visuals.window_shadow.color = shadow;
+        }
     }
 }
 
