@@ -7,8 +7,15 @@ system, which defines 12 functional UI elements, and maps them to a color scale.
 
 Scales (both light and dark mode) are computed and based on luminosity contrast algorithm defined by [`APCA`](https://github.com/Myndex). Every scale uses one predefined [u8; 3] rgb color that is used as an accent color (if suitable). Colors are manipulated in Linear Srgb and [OkHsl](https://bottosson.github.io/posts/colorpicker/).
 
+<!-- ![example_image](media/egui_colors_v0.5.0.png)
+![example_image](media/egui_colors_light.png) -->
+![example_image](media/animated_circles.png)
+from Demo [animated_circles](https://github.com/frankvgompel/animated_circles)
+
+![example_image](media/egui_isohedral.png)
+from Demo [egui_isohedral](https://github.com/frankvgompel/egui_isohedral)
+
 ![example_image](media/egui_colors_v0.5.0.png)
-![example_image](media/egui_colors_light.png)
 
 
 ## General Remarks
@@ -115,6 +122,10 @@ update_theme(ctx, utils::EGUI_THEME)
 * serde: Implement `serde::Deserialize` and `serde::Serialize` on `ThemeColor`
 
 ## Examples
-See the example [`hello_colors`](https://github.com/frankvgompel/egui_colors/tree/master/examples/hello_colors)
+See the example [hello_colors](https://github.com/frankvgompel/egui_colors/tree/master/examples/hello_colors)
+or [local_scope](https://github.com/frankvgompel/egui_colors/tree/master/examples/local_scope)
 
-Another [`example`](https://github.com/crumblingstatue/mpv-egui-musicplayer/commit/2e77b7f7c729f7fd55e652f78826e1f417ad3eaa) from an experienced user how to set up [`egui_colors`](https://github.com/frankvgompel/egui_colors)
+Another [example](https://github.com/crumblingstatue/mpv-egui-musicplayer/commit/2e77b7f7c729f7fd55e652f78826e1f417ad3eaa) from an experienced user how to set up `egui_colors`
+
+Or see the demos 
+[animated_circles](https://github.com/frankvgompel/animated_circles) or [egui_isohedral](https://github.com/frankvgompel/egui_isohedral)
