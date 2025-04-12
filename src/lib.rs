@@ -83,6 +83,7 @@ impl Colorix {
         };
         let mode = ctx.style().visuals.dark_mode;
         colorix.apply_to = ApplyTo::Global;
+        colorix.tokens.apply_to = ApplyTo::Global;
         colorix.set_colorix_mode(mode);
         colorix.get_theme_index();
         colorix.update_colors(Some(ctx), None);
@@ -99,6 +100,7 @@ impl Colorix {
         colorix.set_colorix_mode(mode);
         colorix.get_theme_index();
         colorix.apply_to = ApplyTo::Local;
+        colorix.tokens.apply_to = ApplyTo::Local;
         colorix.update_colors(None, Some(ui));
         colorix
     }
@@ -113,6 +115,7 @@ impl Colorix {
         colorix.set_colorix_mode(mode);
         colorix.get_theme_index();
         colorix.apply_to = ApplyTo::ExtraScale;
+        colorix.tokens.apply_to = ApplyTo::ExtraScale;
         colorix.update_colors(Some(ctx), None);
         colorix
     }
@@ -122,6 +125,7 @@ impl Colorix {
         colorix.set_colorix_mode(dark_mode);
         colorix.theme = theme;
         colorix.apply_to = ApplyTo::Local;
+        colorix.tokens.apply_to = ApplyTo::Local;
         colorix.update_colors(None, None);
         colorix
     }
