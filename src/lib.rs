@@ -317,7 +317,6 @@ impl Colorix {
             if ui
                 .add(
                     egui::Button::new(egui::RichText::new("☀").size(size))
-                        .min_size(egui::Vec2::new(30., 30.))
                         .frame(false),
                 )
                 .on_hover_text("Switch to light mode")
@@ -331,7 +330,6 @@ impl Colorix {
             if ui
                 .add(
                     egui::Button::new(egui::RichText::new("🌙").size(size))
-                        .min_size(egui::Vec2::new(30., 30.))
                         .frame(false),
                 )
                 .on_hover_text("Switch to dark mode")
