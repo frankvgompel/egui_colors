@@ -315,10 +315,7 @@ impl Colorix {
         #![allow(clippy::collapsible_else_if)]
         if self.dark_mode() {
             if ui
-                .add(
-                    egui::Button::new(egui::RichText::new("☀").size(size))
-                        .frame(false),
-                )
+                .add(egui::Button::new(egui::RichText::new("☀").size(size)).frame(false))
                 .on_hover_text("Switch to light mode")
                 .clicked()
             {
@@ -328,10 +325,7 @@ impl Colorix {
             }
         } else {
             if ui
-                .add(
-                    egui::Button::new(egui::RichText::new("🌙").size(size))
-                        .frame(false),
-                )
+                .add(egui::Button::new(egui::RichText::new("🌙").size(size)).frame(false))
                 .on_hover_text("Switch to dark mode")
                 .clicked()
             {
