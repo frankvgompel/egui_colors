@@ -1,4 +1,4 @@
-use crate::{tokens::ThemeColor, Theme};
+use crate::{Theme, tokens::ThemeColor};
 
 pub const VERMILLION: Theme = [
     ThemeColor::Gold,

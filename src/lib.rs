@@ -22,7 +22,7 @@ use egui::{Context, Ui};
 use scales::Scales;
 use std::sync::Arc;
 use tokens::{ColorTokens, ThemeColor};
-use utils::{LABELS, THEMES, THEME_NAMES};
+use utils::{LABELS, THEME_NAMES, THEMES};
 
 /// A set of colors that are used together to set a visual feel for the ui
 pub type Theme = [ThemeColor; 12];

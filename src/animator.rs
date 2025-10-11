@@ -2,7 +2,7 @@
 #![allow(clippy::semicolon_if_nothing_returned)]
 #![allow(clippy::float_cmp)]
 
-use crate::{tokens::ColorTokens, ApplyTo};
+use crate::{ApplyTo, tokens::ColorTokens};
 use egui::{Color32, Context, Id, Style, Ui};
 
 #[allow(clippy::many_single_char_names)]

@@ -2,9 +2,9 @@
 #![allow(clippy::many_single_char_names)]
 #![allow(clippy::suboptimal_flops)]
 
-use crate::color_space::{from_degrees, LinSrgb, Okhsl};
+use crate::color_space::{LinSrgb, Okhsl, from_degrees};
 use crate::{apca::estimate_lc, tokens::ThemeColor};
-use egui::{epaint::Hsva, Color32};
+use egui::{Color32, epaint::Hsva};
 
 #[derive(Debug, Default, Clone)]
 pub struct Scales {

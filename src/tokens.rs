@@ -1,5 +1,5 @@
 use crate::color_space::LinSrgb;
-use crate::{apca::estimate_lc, ApplyTo};
+use crate::{ApplyTo, apca::estimate_lc};
 use egui::{self, Color32, Context, Ui};
 
 /// The functional UI elements mapped to a scale
