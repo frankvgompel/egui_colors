@@ -2,6 +2,11 @@ use crate::color_space::LinSrgb;
 use crate::{ApplyTo, apca::estimate_lc};
 use egui::{self, Color32, Context, Ui};
 
+#[allow(clippy::must_use_candidate)]
+pub fn lc(rgb_txt: egui::Color32, rgb_bg: egui::Color32) -> f32 {
+    estimate_lc(rgb_txt, rgb_bg)
+}
+
 /// The functional UI elements mapped to a scale
 #[derive(Default, Debug, Clone, Copy)]
 pub struct ColorTokens {
