@@ -135,7 +135,7 @@ impl ColorTokens {
     }
 
     pub(crate) fn set_ctx_visuals(&self, ctx: &Context) {
-        ctx.style_mut(|style| self.set_egui_style(style));
+        ctx.global_style_mut(|style| self.set_egui_style(style));
     }
     pub(crate) fn set_ui_visuals(&self, ui: &mut Ui) {
         self.set_egui_style(ui.style_mut());

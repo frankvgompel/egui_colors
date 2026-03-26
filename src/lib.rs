@@ -81,7 +81,7 @@ impl Colorix {
             theme,
             ..Default::default()
         };
-        let mode = ctx.style().visuals.dark_mode;
+        let mode = ctx.global_style().visuals.dark_mode;
         colorix.apply_to = ApplyTo::Global;
         colorix.tokens.apply_to = ApplyTo::Global;
         colorix.set_colorix_mode(mode);
@@ -96,7 +96,7 @@ impl Colorix {
             theme,
             ..Default::default()
         };
-        let mode = ui.ctx().style().visuals.dark_mode;
+        let mode = ui.ctx().global_style().visuals.dark_mode;
         colorix.set_colorix_mode(mode);
         colorix.get_theme_index();
         colorix.apply_to = ApplyTo::Local;
@@ -111,7 +111,7 @@ impl Colorix {
             theme,
             ..Default::default()
         };
-        let mode = ctx.style().visuals.dark_mode;
+        let mode = ctx.global_style().visuals.dark_mode;
         colorix.set_colorix_mode(mode);
         colorix.get_theme_index();
         colorix.apply_to = ApplyTo::ExtraScale;
@@ -231,7 +231,9 @@ impl Colorix {
 
     fn set_ui_mode(&self, ui: &mut Ui, mode: bool) {
         match self.apply_to {
-            ApplyTo::Global => ui.ctx().style_mut(|style| style.visuals.dark_mode = mode),
+            ApplyTo::Global => ui
+                .ctx()
+                .global_style_mut(|style| style.visuals.dark_mode = mode),
             ApplyTo::Local => ui.style_mut().visuals.dark_mode = mode,
             ApplyTo::ExtraScale => {}
         }
@@ -489,7 +491,7 @@ impl Colorix {
         } else {
             ui_element
         };
-        let rect = egui::Context::available_rect(ctx);
+        let rect = egui::Context::content_rect(ctx);
         let layer_id = egui::LayerId::background();
         let painter = egui::Painter::new(ctx.clone(), layer_id, rect);
         let mut mesh = egui::Mesh::default();

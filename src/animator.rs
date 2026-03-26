@@ -126,13 +126,13 @@ impl ColorAnimator {
             let Some(anim_id) = self.anim_id else { return };
 
             if let Some(ctx) = ctx {
-                let shadow = if ctx.style().visuals.dark_mode {
+                let shadow = if ctx.global_style().visuals.dark_mode {
                     self.s2
                 } else {
                     self.s1
                 };
                 self.progress = ctx.animate_value_with_time(anim_id, 1.0, self.animation_time);
-                ctx.style_mut(|style| self.set_egui_animation(style, tokens, shadow));
+                ctx.global_style_mut(|style| self.set_egui_animation(style, tokens, shadow));
                 if self.progress == 1.0 {
                     ctx.animate_value_with_time(anim_id, 0.0, 0.0);
                 }

@@ -8,9 +8,9 @@ pub struct App {
 }
 
 impl eframe::App for App {
-    fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
-        self.colorix.set_animator(ctx);
-        egui::SidePanel::left("left panel").show(ctx, |ui| {
+    fn ui(&mut self, ui: &mut egui::Ui, _frame: &mut eframe::Frame) {
+        self.colorix.set_animator(ui.ctx());
+        egui::Panel::left("left panel").show_inside(ui, |ui| {
             self.colorix.light_dark_toggle_button(ui, 14.);
             ui.add_space(10.);
             self.colorix.themes_dropdown(ui, None, false);
@@ -23,7 +23,7 @@ impl eframe::App for App {
                 fill: self.colorix2.animator.animated_tokens.subtle_background(),
                 ..Default::default()
             })
-            .show(ctx, |ui| {
+            .show_inside(ui, |ui| {
                 if ui.button("init local colorix").clicked() {
                     self.colorix2 = Colorix::local(ui, utils::COOL).animated();
                 }

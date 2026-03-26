@@ -1,8 +1,8 @@
 use crate::app::App;
-use eframe::egui;
+use eframe::egui::{self, Ui};
 use egui_colors::tokens::ThemeColor;
 
-pub fn draw_interface(app: &mut App, ctx: &egui::Context) {
+pub fn draw_interface(app: &mut App, ui: &mut Ui) {
     let names = vec!["Yellow", "YellowGreen", "Muted Purple"];
     let themes = vec![
         [ThemeColor::Custom([232, 210, 7]); 12],
@@ -10,7 +10,7 @@ pub fn draw_interface(app: &mut App, ctx: &egui::Context) {
         [ThemeColor::Custom([95, 78, 163]); 12],
     ];
     let custom = Some((names, themes));
-    egui::TopBottomPanel::top("t_panel").show(ctx, |ui| {
+    egui::Panel::top("t_panel").show_inside(ui, |ui| {
         ui.horizontal_wrapped(|ui| {
             app.colorix.light_dark_toggle_button(ui, 14.);
             ui.separator();
@@ -19,19 +19,19 @@ pub fn draw_interface(app: &mut App, ctx: &egui::Context) {
             app.colorix.themes_dropdown(ui, custom, false);
         });
     });
-    egui::SidePanel::left("left panel").show(ctx, |ui| {
+    egui::Panel::left("left panel").show_inside(ui, |ui| {
         if app.util_bools[0] {
-            app.colorix.draw_background(ctx, false);
+            app.colorix.draw_background(ui.ctx(), false);
         }
         ui.add_space(20.);
         app.colorix.custom_picker(ui);
         ui.add_space(20.);
         app.colorix.ui_combo_12(ui, true);
     });
-    app.demo.ui(ctx);
-    egui::CentralPanel::default().show(ctx, |_ui| {
+    app.demo.ui(ui);
+    egui::CentralPanel::default().show_inside(ui, |ui| {
         if app.util_bools[0] {
-            app.colorix.draw_background(ctx, false);
+            app.colorix.draw_background(ui.ctx(), false);
         }
     });
 }

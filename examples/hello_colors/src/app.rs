@@ -1,6 +1,6 @@
 //#![allow(dead_code)]
 use crate::interface;
-use eframe::egui;
+use eframe::egui::{self, Ui};
 use egui_colors::{utils, Colorix};
 use egui_demo_lib::DemoWindows;
 use std::sync::Arc;
@@ -13,8 +13,8 @@ pub struct App {
 }
 
 impl eframe::App for App {
-    fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
-        interface::draw_interface(self, ctx);
+    fn ui(&mut self, ui: &mut Ui, _frame: &mut eframe::Frame) {
+        interface::draw_interface(self, ui);
     }
 }
 
@@ -58,7 +58,7 @@ pub fn init() -> Result<(), eframe::Error> {
         options,
         Box::new(|cc| {
             cc.egui_ctx.set_fonts(fonts);
-            cc.egui_ctx.style_mut(|style| {
+            cc.egui_ctx.global_style_mut(|style| {
                 style.spacing.item_spacing = egui::vec2(5.0, 8.0);
                 style.spacing.window_margin = egui::Margin::same(20);
             });
