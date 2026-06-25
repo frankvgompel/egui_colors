@@ -10,7 +10,7 @@ pub fn draw_interface(app: &mut App, ui: &mut Ui) {
         [ThemeColor::Custom([95, 78, 163]); 12],
     ];
     let custom = Some((names, themes));
-    egui::Panel::top("t_panel").show_inside(ui, |ui| {
+    egui::Panel::top("t_panel").show(ui, |ui| {
         ui.horizontal_wrapped(|ui| {
             app.colorix.light_dark_toggle_button(ui, 14.);
             ui.separator();
@@ -19,7 +19,7 @@ pub fn draw_interface(app: &mut App, ui: &mut Ui) {
             app.colorix.themes_dropdown(ui, custom, false);
         });
     });
-    egui::Panel::left("left panel").show_inside(ui, |ui| {
+    egui::Panel::left("left panel").show(ui, |ui| {
         if app.util_bools[0] {
             app.colorix.draw_background(ui.ctx(), false);
         }
@@ -29,7 +29,7 @@ pub fn draw_interface(app: &mut App, ui: &mut Ui) {
         app.colorix.ui_combo_12(ui, true);
     });
     app.demo.ui(ui);
-    egui::CentralPanel::default().show_inside(ui, |ui| {
+    egui::CentralPanel::default().show(ui, |ui| {
         if app.util_bools[0] {
             app.colorix.draw_background(ui.ctx(), false);
         }
