@@ -335,8 +335,7 @@ fn toe(x: f32) -> f32 {
     let k_1: f32 = 0.206;
     let k_2: f32 = 0.03;
     let k_3: f32 = (1. + k_1) / (1. + k_2);
-    0.5 * (k_3.mul_add(x, -k_1)
-        + k_3
+    f32::midpoint(k_3.mul_add(x, -k_1), k_3
             .mul_add(x, -k_1)
             .mul_add(k_3.mul_add(x, -k_1), 4. * k_2 * (k_3 * x))
             .sqrt())
