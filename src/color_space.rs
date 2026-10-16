@@ -335,10 +335,12 @@ fn toe(x: f32) -> f32 {
     let k_1: f32 = 0.206;
     let k_2: f32 = 0.03;
     let k_3: f32 = (1. + k_1) / (1. + k_2);
-    f32::midpoint(k_3.mul_add(x, -k_1), k_3
-            .mul_add(x, -k_1)
+    f32::midpoint(
+        k_3.mul_add(x, -k_1),
+        k_3.mul_add(x, -k_1)
             .mul_add(k_3.mul_add(x, -k_1), 4. * k_2 * (k_3 * x))
-            .sqrt())
+            .sqrt(),
+    )
 }
 fn toe_inv(x: f32) -> f32 {
     let k_1 = 0.206;
@@ -424,8 +426,7 @@ fn okhsl_to_oklab(
         k_0 = 0.;
         k_1 = 0.8 * c_0;
         1. - k_1 / c_mid
-    }
-    else {
+    } else {
         k_0 = c_mid;
         t = 5. * (s - 0.8);
         k_1 = 0.2 * (c_mid * c_mid) * (1.25 * 1.25) / c_0;
