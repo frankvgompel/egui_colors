@@ -419,18 +419,18 @@ fn okhsl_to_oklab(
     let t;
     let k_0;
     let k_1;
-    let k_2;
-    if s < 0.8 {
+    let k_2 = if s < 0.8 {
         t = 1.25 * s;
         k_0 = 0.;
         k_1 = 0.8 * c_0;
-        k_2 = 1. - k_1 / c_mid;
-    } else {
-        t = 5. * (s - 0.8);
-        k_0 = c_mid;
-        k_1 = 0.2 * (c_mid * c_mid) * (1.25 * 1.25) / c_0;
-        k_2 = 1. - k_1 / (c_max - c_mid);
+        1. - k_1 / c_mid
     }
+    else {
+        k_0 = c_mid;
+        t = 5. * (s - 0.8);
+        k_1 = 0.2 * (c_mid * c_mid) * (1.25 * 1.25) / c_0;
+        1. - k_1 / (c_max - c_mid)
+    };
     let c = k_0 + t * k_1 / k_2.mul_add(-t, 1.);
     Oklab {
         l,
