@@ -68,7 +68,7 @@ impl ColorAnimator {
             }
         } else if let Some(ui) = ui {
             if self.anim_id.is_none() {
-                let anim_id = ui.id();
+                let anim_id = ui.scope_id();
                 self.anim_id = Some(anim_id);
                 ui.ctx().animate_value_with_time(anim_id, 0.0, 0.0);
             } else {
@@ -80,7 +80,7 @@ impl ColorAnimator {
         self.animation_time = new_time;
     }
     pub(crate) fn create_id(&mut self, ctx: &Context) {
-        let anim_id = egui::Id::new("Color animator");
+        let anim_id = egui::Id::unique("Color animator");
         ctx.animate_value_with_time(anim_id, 0.0, 0.0);
         self.anim_id = Some(anim_id);
     }
